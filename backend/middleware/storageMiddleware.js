@@ -22,7 +22,6 @@ const upload = multer({
 	limits: { fileSize: 1000000 },
 	fileFilter,
 });
-
 const uploadImages = (fieldName, fileCount = 1) => (req, res, next) => {
 	upload.array(fieldName, fileCount)(req, res, (err) => {
 		if (req.fileValidationError) {
