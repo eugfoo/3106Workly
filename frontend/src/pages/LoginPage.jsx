@@ -97,7 +97,7 @@ export default function LoginForm() {
 								<div className="flex justify-center items-center"></div>
 								<div className="mb-5">
 									<button
-										className="w-full dark:bg-blue-700 hover:dark:bg-blue-800 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
+										className="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded flex items-center justify-center"
 										type="submit"
 										disabled={isLoading}
 									>

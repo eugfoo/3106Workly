@@ -56,7 +56,7 @@ export default function RegisterPage() {
 							<button
 								onClick={() => setIsFreelancer(false)}
 								className={`px-3 py-1 rounded-l-lg ${
-									!isFreelancer ? "dark:bg-blue-700 text-white" : "dark:bg-gray-200 text-gray-700"
+									!isFreelancer ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700"
 								}`}
 							>
 								Client
@@ -64,7 +64,7 @@ export default function RegisterPage() {
 							<button
 								onClick={() => setIsFreelancer(true)}
 								className={`px-3 py-1 rounded-r-lg ${
-									isFreelancer ? "dark:bg-blue-700 text-white" : "dark:bg-gray-200 text-gray-700"
+									isFreelancer ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700"
 								}`}
 							>
 								Freelancer
@@ -118,7 +118,7 @@ export default function RegisterPage() {
 							type="submit"
 							disabled={isLoading}
 							className={`w-full ${
-								isLoading ? "dark:bg-gray-400" : "dark:bg-blue-700 hover:dark:bg-blue-800"
+								isLoading ? "bg-gray-400" : "bg-blue-700 hover:bg-blue-800"
 							} text-white font-bold py-2 px-4 rounded flex items-center justify-center`}
 						>
 							{isLoading ? (

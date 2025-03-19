@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdditionalServiceItem from "../../components/AdditionalServiceItem";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const ServiceForm = () => {
 	const navigate = useNavigate();
@@ -71,9 +72,9 @@ const ServiceForm = () => {
 			await axios.post("/api/services", data, {
 				headers: { "Content-Type": "multipart/form-data" },
 			});
-			navigate("/services");
+			navigate("/freelancer/home");
 		} catch (error) {
-			console.error("Error creating service:", error);
+			toast.error(error.response.data.message);
 		}
 	};
 
@@ -384,7 +385,7 @@ const ServiceForm = () => {
 									Back
 								</button>
 							)}
-							{currentStep < 5 ? (
+							{currentStep < 4 ? (
 								<button
 									type="button"
 									onClick={nextStep}
