@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 
+// Middleware to protect routes by verifying JWT token
 const protect = asyncHandler(async (req, res, next) => {
 	let token = req.cookies.token;
 
@@ -20,6 +21,7 @@ const protect = asyncHandler(async (req, res, next) => {
 	}
 });
 
+// Middleware to allow access only to freelancers and admins
 const freelancer = asyncHandler(async (req, res, next) => {
 	if (req.user && (req.user.userType === "freelancer" || req.user.userType === "admin")) {
 		next();
@@ -29,6 +31,7 @@ const freelancer = asyncHandler(async (req, res, next) => {
 	}
 });
 
+// Middleware to allow access only to admins
 const admin = asyncHandler(async (req, res, next) => {
 	if (req.user && req.user.userType === "admin") {
 		next();
@@ -38,6 +41,7 @@ const admin = asyncHandler(async (req, res, next) => {
 	}
 });
 
+// Middleware to allow access only to clients and admins
 const client = asyncHandler(async (req, res, next) => {
 	if (req.user && (req.user.userType === "client" || req.user.userType === "admin")) {
 		next();
