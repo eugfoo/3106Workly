@@ -11,14 +11,16 @@ const ServiceForm = () => {
 	const [formData, setFormData] = useState({
 		title: "",
 		category: "",
-		searchTags: "",
 		description: "",
-		questions: "",
-		pricing: "",
+		price: "",
 		duration: "",
+		searchTags: "",
+		questionPrompt: "",
 		images: [],
 		additionalServices: [],
 	});
+
+	const [imagePreviews, setImagePreviews] = useState([]);
 
 	const addAdditionalService = () => {
 		setFormData((prev) => ({
@@ -50,18 +52,33 @@ const ServiceForm = () => {
 	};
 
 	const handleFileChange = (e) => {
+		const files = Array.from(e.target.files);
 		setFormData((prev) => ({ ...prev, images: Array.from(e.target.files) }));
+		const previews = files.map((file) => URL.createObjectURL(file));
+		setImagePreviews(previews);
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const data = new FormData();
 
-		// Append all form fields
 		Object.keys(formData).forEach((key) => {
 			if (key === "images") {
 				formData.images.forEach((image) => {
 					data.append("images", image);
+				});
+			} else if (key === "searchTags") {
+				formData[key]
+					.split(",")
+					.map((tag) => tag.trim())
+					.forEach((tag) => {
+						data.append("searchTags[]", tag);
+					});
+			} else if (key === "additionalServices") {
+				formData[key].forEach((service, index) => {
+					Object.keys(service).forEach((serviceKey) => {
+						data.append(`additionalServices[${index}][${serviceKey}]`, service[serviceKey]);
+					});
 				});
 			} else {
 				data.append(key, formData[key]);
@@ -78,11 +95,13 @@ const ServiceForm = () => {
 		}
 	};
 
-	const nextStep = () => {
+	const nextStep = (e) => {
+		e.preventDefault();
 		setCurrentStep((prev) => prev + 1);
 	};
 
-	const prevStep = () => {
+	const prevStep = (e) => {
+		e.preventDefault();
 		setCurrentStep((prev) => prev - 1);
 	};
 
@@ -208,8 +227,8 @@ const ServiceForm = () => {
 										</label>
 										<input
 											type="text"
-											name="pricing"
-											value={formData.pricing}
+											name="price"
+											value={formData.price}
 											onChange={handleChange}
 											className="w-full p-2 border border-gray-300 rounded-md"
 											placeholder="Base price of your service"
@@ -310,8 +329,8 @@ const ServiceForm = () => {
 										</span>
 									</label>
 									<textarea
-										name="questions"
-										value={formData.questions}
+										name="questionPrompt"
+										value={formData.questionPrompt}
 										onChange={handleChange}
 										className="w-full p-2 border border-gray-300 rounded-md h-32"
 									/>
@@ -357,6 +376,22 @@ const ServiceForm = () => {
 											<p className="text-sm text-gray-500">Drag/Drop a image</p>
 										</label>
 									</div>
+									{imagePreviews.length > 0 && (
+										<div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+											{imagePreviews.map((preview, index) => (
+												<div key={index} className="relative">
+													<img
+														src={preview}
+														alt={`Preview ${index + 1}`}
+														className="w-full h-auto rounded-md border"
+													/>
+													<p className="text-xs text-gray-500 mt-1">
+														{formData.images[index]?.name}
+													</p>
+												</div>
+											))}
+										</div>
+									)}
 								</div>
 							</div>
 						)}

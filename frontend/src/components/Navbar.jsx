@@ -8,6 +8,7 @@ const Navbar = () => {
 	const auth = useSelector((state) => state.auth);
 
 	const handleLogout = () => {
+		setDropdownOpen(false);
 		dispatch(logout());
 	};
 
@@ -43,7 +44,7 @@ const Navbar = () => {
 								onClick={() => setDropdownOpen(!dropdownOpen)}
 							>
 								<img
-									src={auth.userInfo.profilePicture || "/images/placeholder.png"}
+									src={auth.userInfo.profilePicture}
 									alt="Profile"
 									className="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm"
 								/>

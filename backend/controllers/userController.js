@@ -47,6 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
 			username: user.username,
 			email: user.email,
 			userType: user.userType,
+			profilePicture: user.profilePicture,
 		});
 	} else {
 		res.status(400);

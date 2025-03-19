@@ -106,7 +106,7 @@ export default function LoginForm() {
 								</div>
 								<div className="flex items-center my-5">
 									<hr className="flex-grow border-t border-gray-300" />
-									<span className="mx-4 text-gray-500">OR</span>
+									<span className="mx-4 text-gray-500">or</span>
 									<hr className="flex-grow border-t border-gray-300" />
 								</div>
 								<div className="flex flex-col md:flex-row gap-2">

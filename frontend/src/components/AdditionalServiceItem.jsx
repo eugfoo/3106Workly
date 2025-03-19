@@ -1,7 +1,7 @@
 const AdditionalServiceItem = ({ service, index, onUpdate, onDelete }) => {
 	return (
 		<div className="p-2 rounded-md mb-3">
-			<div className="flex flex-col md:flex-row gap-3 items-start md:items-center">
+			<div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
 				<div className="flex-grow">
 					<input
 						type="text"
@@ -23,6 +23,19 @@ const AdditionalServiceItem = ({ service, index, onUpdate, onDelete }) => {
 							className="w-[100px] pl-7 p-2 border border-gray-300 rounded-md"
 						/>
 					</div>
+				</div>
+
+				<div className="flex items-center gap-2">
+					<span className="text-sm text-gray-500">and additional</span>
+					<div className="relative">
+						<input
+							type="number"
+							value={service.duration}
+							onChange={(e) => onUpdate(index, { ...service, duration: e.target.value })}
+							className="w-[100px] pl-7 p-2 border border-gray-300 rounded-md"
+						/>
+					</div>
+					<span className="text-sm text-gray-500">day(s)</span>
 				</div>
 
 				<button

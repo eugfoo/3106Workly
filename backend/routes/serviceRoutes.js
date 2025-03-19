@@ -12,7 +12,7 @@ const uploadImages = require("../middleware/storageMiddleware");
 
 const router = express.Router();
 
-router.route("/").get(getServices).post(protect, freelancer, uploadImages("images"), createService);
+router.route("/").get(getServices).post(protect, freelancer, uploadImages("images", 5), createService);
 router.get("/my-services", protect, freelancer, getAllMyServices);
 router
 	.route("/:id")

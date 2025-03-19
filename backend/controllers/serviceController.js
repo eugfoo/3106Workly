@@ -2,6 +2,8 @@ const asyncHandler = require("express-async-handler");
 const Service = require("../models/serviceModel");
 
 const createService = asyncHandler(async (req, res) => {
+	console.log(req.body);
+	console.log(req.files);
 	const {
 		title,
 		category,
