@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
+import ReactMarkdown from "react-markdown";
+import "react-mde/lib/styles/css/react-mde-all.css";
 
 String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
@@ -135,13 +137,16 @@ const ServiceDetailsPage = () => {
                 </span>
               </div>
 
+              {/* Description with markdown */}
               <div className="mt-4">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
                   Quick Overview
                 </h2>
-                <p className="text-gray-600">
-                  {service.description || "No description provided"}
-                </p>
+                <div className="prose max-w-none text-gray-600">
+                  <ReactMarkdown>
+                    {service.description || "No description provided"}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
           </div>
@@ -150,14 +155,16 @@ const ServiceDetailsPage = () => {
         {/* Right Column - Scrollable */}
         <div className="lg:w-1/2">
           <div className="space-y-8">
-            {/* Question Prompt */}
+            {/* Question Prompt with markdown */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
                 Questions for Client
               </h2>
-              <p className="text-gray-600">
-                {service.questionPrompt || "No questions specified"}
-              </p>
+              <div className="prose max-w-none text-gray-600">
+                <ReactMarkdown>
+                  {service.questionPrompt || "No questions specified"}
+                </ReactMarkdown>
+              </div>
             </div>
 
             {/* Services Included */}
@@ -224,7 +231,7 @@ const ServiceDetailsPage = () => {
                       key={index}
                       className="bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded hover:bg-gray-200 transition-colors"
                     >
-                      {tag.capitalize()}
+                      {tag}
                     </span>
                   ))}
                 </div>
