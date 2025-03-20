@@ -21,16 +21,6 @@ const protect = asyncHandler(async (req, res, next) => {
 	}
 });
 
-// Middleware to allow access only to freelancers and admins
-const freelancer = asyncHandler(async (req, res, next) => {
-	if (req.user && (req.user.userType === "freelancer" || req.user.userType === "admin")) {
-		next();
-	} else {
-		res.status(403);
-		throw new Error("Access denied, freelancers only");
-	}
-});
-
 // Middleware to allow access only to admins
 const admin = asyncHandler(async (req, res, next) => {
 	if (req.user && req.user.userType === "admin") {
@@ -41,14 +31,4 @@ const admin = asyncHandler(async (req, res, next) => {
 	}
 });
 
-// Middleware to allow access only to clients and admins
-const client = asyncHandler(async (req, res, next) => {
-	if (req.user && (req.user.userType === "client" || req.user.userType === "admin")) {
-		next();
-	} else {
-		res.status(403);
-		throw new Error("Access denied, clients only");
-	}
-});
-
-module.exports = { protect, freelancer, client, admin };
+module.exports = { protect, admin };

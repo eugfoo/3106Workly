@@ -37,9 +37,6 @@ const serviceSchema = mongoose.Schema(
 			type: Number,
 			required: true,
 		},
-		servicesIncluded: {
-			type: [String],
-		},
 		description: {
 			type: String,
 		},

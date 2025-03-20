@@ -11,7 +11,6 @@ export default function RegisterPage() {
 		email: "",
 		password: "",
 	});
-	const [isFreelancer, setIsFreelancer] = useState(false);
 
 	const navigate = useNavigate();
 	const [register, { isLoading }] = useRegisterMutation();
@@ -20,10 +19,10 @@ export default function RegisterPage() {
 	const submitHandler = async (e) => {
 		e.preventDefault();
 		try {
-			const userType = isFreelancer ? "freelancer" : "client";
+			const userType = "user";
 			const res = await register({ ...formData, userType }).unwrap();
 			dispatch(setCredentials({ ...res }));
-			navigate(`/${userInfo.userType}/home`);
+			navigate(`/`);
 		} catch (err) {
 			toast.error(err?.data.message || err.error);
 		}
@@ -33,7 +32,7 @@ export default function RegisterPage() {
 
 	useEffect(() => {
 		if (userInfo) {
-			navigate(`/${userInfo.userType}/home`);
+			navigate(`/`);
 		}
 	}, [userInfo, navigate]);
 
@@ -41,7 +40,7 @@ export default function RegisterPage() {
 		<section className="min-h-screen flex items-center justify-center bg-gray-100">
 			<div className="w-full max-w-lg p-4">
 				<div className="text-center mb-8">
-					<h2 className="text-3xl font-bold">{isFreelancer ? "Freelancer" : "Client"} Registration</h2>
+					<h2 className="text-3xl font-bold">Account Registration</h2>
 				</div>
 				<div className="bg-white shadow-md rounded-lg p-8">
 					<div className="mb-4 text-center">
@@ -51,29 +50,6 @@ export default function RegisterPage() {
 							<Link to="/login" className="text-blue-500 hover:underline">
 								Login
 							</Link>
-						</p>
-						<div className="flex justify-center mt-4">
-							<button
-								onClick={() => setIsFreelancer(false)}
-								className={`px-3 py-1 rounded-l-lg ${
-									!isFreelancer ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700"
-								}`}
-							>
-								Client
-							</button>
-							<button
-								onClick={() => setIsFreelancer(true)}
-								className={`px-3 py-1 rounded-r-lg ${
-									isFreelancer ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700"
-								}`}
-							>
-								Freelancer
-							</button>
-						</div>
-						<p className="text-gray-600">
-							{isFreelancer
-								? "Offer services to clients to earn cash"
-								: "Find freelancers to complete projects"}
 						</p>
 					</div>
 
@@ -121,13 +97,7 @@ export default function RegisterPage() {
 								isLoading ? "bg-gray-400" : "bg-blue-700 hover:bg-blue-800"
 							} text-white font-bold py-2 px-4 rounded flex items-center justify-center`}
 						>
-							{isLoading ? (
-								<i className="fas fa-spinner fa-spin"></i>
-							) : (
-								<>
-									Create Account
-								</>
-							)}
+							{isLoading ? <i className="fas fa-spinner fa-spin"></i> : <>Create Account</>}
 						</button>
 
 						<div className="flex items-center my-3">

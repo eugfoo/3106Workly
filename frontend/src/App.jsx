@@ -17,53 +17,36 @@ import ServiceEditPage from "./pages/freelancer/ServiceEditPage";
 import FreelancerLayout from "./layouts/FreelancerLayout";
 
 function App() {
-  return (
-    <>
-      <Routes>
-        <Route element={<MainLayout />}>
-          {/* General routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route
-            path="/reset-password/:token"
-            element={<ResetPasswordPage />}
-          />
-          {/* Client routes */}
-          <Route
-            path="client"
-            element={<ProtectedRoute requiredUserType="client" />}
-          >
-            <Route path="home" element={<Home />} />
-          </Route>
-          {/* Freelancer routes */}
-          <Route
-            path="freelancer"
-            element={<ProtectedRoute requiredUserType="freelancer" />}
-          >
-            <Route element={<FreelancerLayout />}>
-              <Route path="home" element={<FreelancerServicePage />} />
-            </Route>
-            <Route path="create-service" element={<ServiceFormPage />} />
-            <Route path=":serviceId" element={<ServiceDetailsPage />} />
-            <Route
-              path="/freelancer/:serviceId/edit"
-              element={<ServiceEditPage />}
-            />
-          </Route>
-          {/* Admin routes */}
-          <Route
-            path="admin"
-            element={<ProtectedRoute requiredUserType="admin" />}
-          >
-            <Route path="home" element={<Home />} />
-          </Route>
-        </Route>
-      </Routes>
-      <ToastContainer />
-    </>
-  );
+	return (
+		<>
+			<Routes>
+				<Route element={<MainLayout />}>
+					{/* General routes */}
+					<Route path="/" element={<Home />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/forgot-password" element={<ForgotPasswordPage />} />
+					<Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+
+					<Route path="/services">
+						<Route path=":serviceId" element={<ServiceDetailsPage />} />
+						<Route element={<ProtectedRoute requiredUserType="user" />}>
+							<Route element={<FreelancerLayout />}>
+								<Route path="manage" element={<FreelancerServicePage />} />
+							</Route>
+							<Route path="create" element={<ServiceFormPage />} />
+							<Route path=":serviceId/edit" element={<ServiceEditPage />} />
+						</Route>
+					</Route>
+
+					<Route path="admin" element={<ProtectedRoute requiredUserType="admin" />}>
+						<Route path="home" element={<Home />} />
+					</Route>
+				</Route>
+			</Routes>
+			<ToastContainer />
+		</>
+	);
 }
 
 export default App;

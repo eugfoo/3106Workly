@@ -95,7 +95,7 @@ const Navbar = () => {
 							<Link to="/login">
 								<button
 									type="button"
-									className="text-white focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center bg-blue-700 hover:bg-blue-800 focus:ring-blue-900"
+									className="text-white bg-gray-900 font-medium rounded-lg text-sm px-4 py-2 text-center hover:text-blue-600"
 								>
 									Login
 								</button>
@@ -103,7 +103,7 @@ const Navbar = () => {
 							<Link to="/register">
 								<button
 									type="button"
-									className="text-white focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center bg-green-700 hover:bg-green-800 focus:ring-green-900"
+									className="text-white font-medium rounded-lg text-sm px-4 py-2 text-center bg-gray-900 border-2 border-white hover:bg-blue-800 hover:border-blue-800"
 								>
 									Register
 								</button>
@@ -161,7 +161,7 @@ const Navbar = () => {
 						</li>
 						<li>
 							<Link
-								to="/services"
+								to="/services/manage"
 								className="block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 text-white"
 							>
 								Services
