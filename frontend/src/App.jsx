@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ServiceDetailsPage from "./pages/freelancer/ServiceDetailsPage";
 import ServiceEditPage from "./pages/freelancer/ServiceEditPage";
+import FreelancerLayout from "./layouts/FreelancerLayout";
 
 function App() {
   return (
@@ -41,13 +42,15 @@ function App() {
             path="freelancer"
             element={<ProtectedRoute requiredUserType="freelancer" />}
           >
-            <Route path="home" element={<FreelancerServicePage />} />
-            <Route path="create-service" element={<ServiceFormPage />} />
-            <Route path=":serviceId" element={<ServiceDetailsPage />} />
-            <Route
-              path="/freelancer/:serviceId/edit"
-              element={<ServiceEditPage />}
-            />
+            <Route element={<FreelancerLayout />}>
+              <Route path="home" element={<FreelancerServicePage />} />
+              <Route path="create-service" element={<ServiceFormPage />} />
+              <Route path=":serviceId" element={<ServiceDetailsPage />} />
+              <Route
+                path="/freelancer/:serviceId/edit"
+                element={<ServiceEditPage />}
+              />
+            </Route>
           </Route>
           {/* Admin routes */}
           <Route
