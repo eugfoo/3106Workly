@@ -2,8 +2,6 @@ const asyncHandler = require("express-async-handler");
 const Service = require("../models/serviceModel");
 
 const createService = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  console.log(req.files);
   const {
     title,
     category,
@@ -27,7 +25,7 @@ const createService = asyncHandler(async (req, res) => {
     questionPrompt,
     additionalServices,
     images: req.files
-      ? req.files.map((file) => file.path.replace("backend/public", ""))
+      ? req.files.map((file) => file.path.replace("backend/public", "").replace("baclend\\public", ""))
       : [],
     User: req.user._id,
   });
@@ -72,7 +70,7 @@ const updateService = asyncHandler(async (req, res) => {
 
     if (req.files) {
       service.images = req.files.map((file) =>
-        file.path.replace("backend/public", "")
+        file.path.replace("backend/public", "").replace("baclend\\public", "")
       );
     }
 
