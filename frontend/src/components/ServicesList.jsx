@@ -41,6 +41,21 @@ const ServicesList = ({ services }) => {
     }
   };
 
+  // Helper function to strip markdown formatting
+  const stripMarkdown = (text) => {
+    if (!text) return "";
+    return text
+      .replace(/#{1,6} /g, "") // Remove headers
+      .replace(/\*\*(.*?)\*\*/g, "$1") // Remove bold
+      .replace(/\*(.*?)\*/g, "$1") // Remove italic
+      .replace(/~~(.*?)~~/g, "$1") // Remove strikethrough
+      .replace(/- /g, "") // Remove unordered list markers
+      .replace(/\d+\. /g, "") // Remove ordered list markers
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Remove links
+      .replace(/`([^`]+)`/g, "$1") // Remove code blocks
+      .trim();
+  };
+
   return (
     <div className="p-4">
       <>
@@ -71,7 +86,9 @@ const ServicesList = ({ services }) => {
                   <h3 className="text-xl font-semibold text-gray-800">
                     {service.title}
                   </h3>
-                  <p className="text-gray-600 mt-2">{service.description}</p>
+                  <p className="text-gray-600 mt-2 line-clamp-3">
+                    {stripMarkdown(service.description)}
+                  </p>
                   {service.searchTags && service.searchTags.length > 0 && (
                     <div className="mt-4 flex flex-wrap gap-2">
                       {service.searchTags.map((tag, index) => (
