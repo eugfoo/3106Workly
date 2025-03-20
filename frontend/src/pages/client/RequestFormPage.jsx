@@ -1,205 +1,181 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const RequestFormPage = () => {
-    const navigate = useNavigate();
-    const [currentStep, setCurrentStep] = useState(1);
+	const { serviceId } = useParams(); // ✅ Get serviceId from URL
+	const navigate = useNavigate();
+	const [serviceDetails, setServiceDetails] = useState(null);
+	const [loading, setLoading] = useState(true); // ✅ Track loading state
+	const [error, setError] = useState(null); // ✅ Track errors
 
-    const [formData, setFormData] = useState({
-        description: "",
-        keyDeliverables: "",
-        additionalServices: {
-            seo: false,
-            cmsSetup: false,
-            hosting: false,
-        },
-        finalDeadline: "",
-        legalDocuments: {
-            nda: false,
-            ipRights: false,
-        },
-    });
+	const [formData, setFormData] = useState({
+		description: "",
+		additionalServices: {},
+	});
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+	// ✅ Fetch service details (Added Debugging)
+	useEffect(() => {
+		const fetchServiceDetails = async () => {
+			try {
+				console.log("Fetching service details for serviceId:", serviceId); // 🛠 Debug Log
 
+				const response = await axios.get(`/api/services/${serviceId}`);
+				const serviceData = response.data;
+
+				console.log("Service data received:", serviceData); // 🛠 Debug Log
+
+				// ✅ Validate API response
+				if (!serviceData || !serviceData.additionalServices) {
+					throw new Error("Invalid service data received");
+				}
+
+				setServiceDetails(serviceData);
+				setLoading(false); // ✅ Stop loading when data is set
+
+				// ✅ Initialize additional services as unchecked
+				const servicesMap = {};
+				serviceData.additionalServices.forEach((service) => {
+					servicesMap[service] = false;
+				});
+
+				setFormData((prev) => ({
+					...prev,
+					additionalServices: servicesMap,
+				}));
+			} catch (error) {
+				console.error("Error fetching service details:", error); // 🛠 Debug Log
+				setError(error.message);
+				setLoading(false);
+			}
+		};
+
+		fetchServiceDetails();
+	}, [serviceId]); // ✅ Runs only when serviceId changes
+
+	const handleChange = (e) => {
+        const { name, type, checked } = e.target;
+    
         if (type === "checkbox") {
-            // Handle checkboxes for additional services & legal documents
-            if (name in formData.additionalServices) {
-                setFormData((prev) => ({
-                    ...prev,
-                    additionalServices: {
-                        ...prev.additionalServices,
-                        [name]: checked,
-                    },
-                }));
-            } else {
-                setFormData((prev) => ({
-                    ...prev,
-                    legalDocuments: {
-                        ...prev.legalDocuments,
-                        [name]: checked,
-                    },
-                }));
-            }
+            setFormData((prev) => ({
+                ...prev,
+                additionalServices: {
+                    ...prev.additionalServices,
+                    [name]: checked, // ✅ Use service name as the key
+                },
+            }));
         } else {
-            setFormData((prev) => ({ ...prev, [name]: value }));
+            setFormData((prev) => ({ ...prev, [name]: e.target.value }));
         }
     };
+    
 
-    const handleSubmit = async (e) => {
+	const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        // ✅ Filter only selected additional services
+        const selectedAdditionalServices = serviceDetails.additionalServices
+            .filter((service) => formData.additionalServices[service.name] === true)
+            .map((service) => ({
+                name: service.name, // ✅ Store name
+                price: service.price, // ✅ Store price
+                duration: service.duration, // ✅ Store duration
+            }));
+    
+        const requestData = {
+            description: formData.description,
+            additionalServices: selectedAdditionalServices, // ✅ Correct format
+        };
+    
+        console.log("Submitting Request:", requestData); // ✅ Debugging Log
+    
         try {
-            await axios.post("/api/requests", formData);
+            const response = await axios.post(`/api/services/${serviceId}/request`, requestData);
+            console.log("Response from server:", response.data); // ✅ Debugging Log
             navigate("/client/home");
         } catch (error) {
-            toast.error(error.response.data.message);
+            console.error("Error submitting request:", error.response?.data || error.message);
+            toast.error(error.response?.data?.message || "Failed to create request");
         }
     };
+    
 
-    const nextStep = () => setCurrentStep(2);
-    const prevStep = () => setCurrentStep(1);
+	// ✅ Handle Loading & Errors
+	if (loading) {
+		return (
+			<div className="flex justify-center items-center min-h-screen">
+				<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+			</div>
+		);
+	}
 
-    return (
-        <div className="bg-gray-50 min-h-screen">
+	if (error) {
+		return (
+			<div className="text-center text-red-600 p-6">
+				<h2 className="text-2xl font-semibold">Error Loading Page</h2>
+				<p>{error}</p>
+			</div>
+		);
+	}
 
+	// ✅ Ensure `serviceDetails` is always defined before rendering
+	if (!serviceDetails) {
+		return (
+			<div className="text-center text-gray-600 p-6">
+				<h2 className="text-2xl font-semibold">No Service Details Found</h2>
+				<p>Please try again later.</p>
+			</div>
+		);
+	}
 
+	return (
+		<div className="bg-gray-50 min-h-screen">
+			<div className="bg-white p-6 rounded-md shadow">
+				<h2 className="text-2xl font-semibold mb-4">Request Service</h2>
+				<form onSubmit={handleSubmit}>
+					{/* Project Description */}
+					<div>
+						<label className="block text-sm font-medium text-gray-700">Project Description</label>
+						<textarea
+							name="description"
+							value={formData.description}
+							onChange={handleChange}
+							className="w-full p-2 border border-gray-300 rounded-md"
+							placeholder="Provide details about your project..."
+						/>
+					</div>
 
-
-            {/* Step Navigation */}
-            <div className="bg-gray-200 sticky top-0 z-10">
-                <div className="max-w-4xl mx-auto px-4 py-4">
-                    <div className="flex overflow-x-auto pb-2 hide-scrollbar">
-                        {/* Step 1: Project Info & Additional Services */}
-                        <div className={`flex items-center whitespace-nowrap mr-4 ${currentStep === 1 ? "text-blue-600" : "text-gray-500"}`}>
-                            <div className={`w-6 h-6 rounded-full flex items-center justify-center mr-2 ${currentStep === 1 ? "bg-blue-600 text-white" : "bg-gray-200"}`}>
-                                1
-                            </div>
-                            <span className="text-sm md:text-base">Project Info & Services</span>
-                        </div>
-
-                        {/* Step 2: Final Details & Submit */}
-                        <div className={`flex items-center whitespace-nowrap mr-4 ${currentStep === 2 ? "text-blue-600" : "text-gray-500"}`}>
-                            <div className={`w-6 h-6 rounded-full flex items-center justify-center mr-2 ${currentStep === 2 ? "bg-blue-600 text-white" : "bg-gray-200"}`}>
-                                2
-                            </div>
-                            <span className="text-sm md:text-base">Final Details & Submit</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            {/* Multi-Step Form */}
-            <div className="bg-white p-6 rounded-md shadow">
-                <form onSubmit={handleSubmit}>
-                    {/* 🟢 Step 1: Project Info + Additional Services */}
-                    {currentStep === 1 && (
-                        <div className="space-y-6">
-                            {/* Project Description */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Project Description</label>
-                                <textarea
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                    placeholder="Provide details about your project..."
-                                />
-                            </div>
-
-                            {/* Key Deliverables */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Key Deliverables</label>
-                                <textarea
-                                    name="keyDeliverables"
-                                    value={formData.keyDeliverables}
-                                    onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                    placeholder="What do you expect as key outcomes?"
-                                />
-                            </div>
-
-                            {/* Additional Services */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Additional Services</label>
-                                <div className="space-y-2">
-                                    <label className="flex items-center space-x-2">
-                                        <input type="checkbox" name="seo" checked={formData.additionalServices.seo} onChange={handleChange} />
-                                        <span>SEO Optimization - SGD 50</span>
-                                    </label>
-                                    <label className="flex items-center space-x-2">
-                                        <input type="checkbox" name="cmsSetup" checked={formData.additionalServices.cmsSetup} onChange={handleChange} />
-                                        <span>CMS Setup & Training - SGD 50</span>
-                                    </label>
-                                    <label className="flex items-center space-x-2">
-                                        <input type="checkbox" name="hosting" checked={formData.additionalServices.hosting} onChange={handleChange} />
-                                        <span>Hosting & Domain Management - SGD 50</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* 🟢 Step 2: Final Deadline + Legal Documents */}
-                    {currentStep === 2 && (
-                        <div className="space-y-6">
-                            {/* Final Deadline */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Final Deadline</label>
-                                <input
-                                    type="date"
-                                    name="finalDeadline"
-                                    value={formData.finalDeadline}
-                                    onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                />
-                            </div>
-
-                            {/* Legal Documents */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Legal Documents</label>
-                                <div className="space-y-2">
-                                    <label className="flex items-center space-x-2">
-                                        <input type="checkbox" name="nda" checked={formData.legalDocuments.nda} onChange={handleChange} />
-                                        <span>Require NDA?</span>
-                                    </label>
-                                    <label className="flex items-center space-x-2">
-                                        <input type="checkbox" name="ipRights" checked={formData.legalDocuments.ipRights} onChange={handleChange} />
-                                        <span>Require Intellectual Property Rights?</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Navigation Buttons */}
-                    <div className="mt-6 flex justify-between">
-                        {currentStep === 2 ? (
-                            <button type="button" onClick={prevStep} className="px-4 py-2 border border-gray-300 rounded-md">
-                                Back
-                            </button>
-                        ) : (
-                            <div></div>
-                        )}
-                        {currentStep === 1 ? (
-                            <button type="button" onClick={nextStep} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                                Next
-                            </button>
-                        ) : (
-                            <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
-                                Submit Request
-                            </button>
-                        )}
-                    </div>
-                </form>
-            </div>
-
+					{/* ✅ Additional Services (Fixed Rendering Issue) */}
+<div>
+    <label className="block text-sm font-medium text-gray-700">Additional Services</label>
+    {serviceDetails.additionalServices.length > 0 ? (
+        <div className="space-y-2">
+            {serviceDetails.additionalServices.map((service) => (
+                <label key={service._id} className="flex items-center space-x-2">
+                    <input
+                        type="checkbox"
+                        name={service.name} // ✅ Use service.name, not full object
+                        checked={formData.additionalServices[service.name] || false}
+                        onChange={handleChange}
+                    />
+                    <span>{service.name} - ${service.price} ({service.duration} days)</span> {/* ✅ Show name, price, duration */}
+                </label>
+            ))}
         </div>
-    );
+    ) : (
+        <p className="text-gray-500 italic">No additional services available</p>
+    )}
+</div>
+
+
+					<button type="submit" className="mt-4 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+						Submit Request
+					</button>
+				</form>
+			</div>
+		</div>
+	);
 };
 
 export default RequestFormPage;

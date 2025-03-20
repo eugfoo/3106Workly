@@ -13,10 +13,11 @@ const uploadImages = require("../middleware/storageMiddleware");
 
 const router = express.Router();
 
-
-router.route("/").get(getServices).post(protect, uploadImages("images", 5), createService)
+router
+	.route("/")
+	.get(getServices)
+	.post(protect, uploadImages("images", 5), createService);
 router.post("/:serviceId/request", protect, createServiceRequest);
-
 
 router.get("/my-services", protect, getAllMyServices);
 router
@@ -24,7 +25,5 @@ router
 	.get(protect, getServiceDetails)
 	.put(protect, uploadImages("images"), updateService)
 	.delete(protect, deleteService);
-	
-
 
 module.exports = router;

@@ -136,49 +136,44 @@ const getServices = asyncHandler(async (req, res) => {
 	}
 });
 
-
-// Create Service Request
 const createServiceRequest = asyncHandler(async (req, res) => {
-    const { serviceId } = req.params; // ✅ Extract service ID from URL
-    const { description, keyDeliverables, additionalServices, finalDeadline, legalDocuments } = req.body;
+  const { serviceId } = req.params;
+  const { description, additionalServices } = req.body;
 
-    console.log("Received request for serviceId:", serviceId); // ✅ Debugging
+  console.log("Received Service Request:", req.body); // ✅ Debugging Log
 
-    // 🔹 Check if the service exists
-    const service = await Service.findById(serviceId);
-    if (!service) {
-        console.log("Service not found in database:", serviceId); // ✅ Debugging
-        res.status(404);
-        throw new Error("Service not found");
-    }
+  // ✅ Ensure the service exists
+  const service = await Service.findById(serviceId);
+  if (!service) {
+      console.error("Service not found:", serviceId);
+      res.status(404);
+      throw new Error("Service not found");
+  }
 
-    console.log("Service found:", service); // ✅ Debugging
+  // ✅ Store only selected additional services in the correct format
+  const selectedAdditionalServices = additionalServices.map((service) => ({
+      name: service.name,
+      price: service.price,
+      duration: service.duration,
+  }));
 
-	 // ✅ Get provider (freelancer's user ID)
-	const providerId = service.User;
+  console.log("Final Additional Services:", selectedAdditionalServices); // ✅ Debugging Log
 
-	if (!providerId) {
-		res.status(400);
-		throw new Error("Service provider is missing");
-    }
+  // ✅ Create service request
+  const serviceRequest = new ServiceRequest({
+      service: serviceId,
+      provider: service.User,
+      requester: req.user._id,
+      description,
+      additionalServices: selectedAdditionalServices, // ✅ Correct format
+      status: "pending",
+  });
 
-    // 🔹 Create service request
-    const serviceRequest = new ServiceRequest({
-        service: serviceId,
-        provider: providerId, // Ensure this field exists in your Service model
-        requester: req.user._id, // Logged-in user making the request
-        description,
-        keyDeliverables,
-        additionalServices,
-        finalDeadline,
-        legalDocuments,
-        status: "pending",
-    });
+  const createdRequest = await serviceRequest.save();
+  console.log("Service request created:", createdRequest); // ✅ Debugging Log
 
-    const createdRequest = await serviceRequest.save();
-    res.status(201).json(createdRequest);
+  res.status(201).json(createdRequest);
 });
-
 
 
 
@@ -190,5 +185,4 @@ module.exports = {
 	getAllMyServices,
 	getServices,
 	createServiceRequest,
-
 };

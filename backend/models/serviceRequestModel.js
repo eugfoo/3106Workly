@@ -1,45 +1,40 @@
 const mongoose = require("mongoose");
 
 const serviceRequestSchema = mongoose.Schema(
-    {
-        service: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Service",
-            required: true,
-        },
-        provider: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
-        requester: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
-        description: { type: String, required: true },
-        keyDeliverables: { type: String },
+	{
+		service: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Service",
+			required: true,
+		},
+		provider: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
+		requester: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
+		description: { type: String, required: true },
 
-        additionalServices: {
-            seo: { type: Boolean, default: false },
-            cmsSetup: { type: Boolean, default: false },
-            hosting: { type: Boolean, default: false },
-        },
+		// ✅ Store additional services dynamically
+		additionalServices: [
+			{
+				name: { type: String, required: true }, // ✅ Service name (e.g., "Photography")
+				price: { type: Number, required: true }, // ✅ Store the price
+				duration: { type: Number, required: true }, // ✅ Store the duration
+			},
+		],
 
-        finalDeadline: { type: Date },
-
-        legalDocuments: {
-            nda: { type: Boolean, default: false },
-            ipRights: { type: Boolean, default: false },
-        },
-
-        status: {
-            type: String,
-            enum: ["pending", "accepted", "rejected", "completed"],
-            default: "pending",
-        },
-    },
-    { timestamps: true }
+		status: {
+			type: String,
+			enum: ["pending", "accepted", "rejected", "completed"],
+			default: "pending",
+		},
+	},
+	{ timestamps: true }
 );
 
 const ServiceRequest = mongoose.model("ServiceRequest", serviceRequestSchema);
