@@ -47,107 +47,144 @@ const ServiceDetailsPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Image Gallery */}
-        <div className="relative h-96">
-          {service.images && service.images.length > 0 ? (
-            <img
-              src={service.images[0]}
-              alt={service.title}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <img
-              src="/images/placeholder.png"
-              alt="Placeholder"
-              className="w-full h-full object-cover"
-            />
-          )}
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Left Column - Sticky */}
+        <div className="lg:w-1/2 lg:sticky lg:top-8 lg:self-start">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            {/* Image Gallery */}
+            <div className="relative h-96">
+              {service.images && service.images.length > 0 ? (
+                <img
+                  src={service.images[0]}
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                  <span className="text-gray-500">No image available</span>
+                </div>
+              )}
+            </div>
+
+            {/* Basic Information */}
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <h1 className="text-3xl font-bold text-gray-900">
+                  {service.title}
+                </h1>
+                <div className="text-2xl font-bold text-blue-600">
+                  ${service.price}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-3 mb-4">
+                <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded">
+                  {service.category.capitalize()}
+                </span>
+                <span className="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded">
+                  <i className="fas fa-clock mr-2"></i>
+                  {service.duration} days
+                </span>
+              </div>
+
+              <div className="mt-4">
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                  Quick Overview
+                </h2>
+                <p className="text-gray-600">
+                  {service.description || "No description provided"}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Service Details */}
-        <div className="p-6">
-          <div className="flex justify-between items-start">
-            <h1 className="text-3xl font-bold text-gray-900">
-              {service.title}
-            </h1>
-            <div className="text-2xl font-bold text-blue-600">
-              ${service.price}
+        {/* Right Column - Scrollable */}
+        <div className="lg:w-1/2">
+          <div className="space-y-8">
+            {/* Question Prompt */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Questions for Client
+              </h2>
+              <p className="text-gray-600">
+                {service.questionPrompt || "No questions specified"}
+              </p>
             </div>
-          </div>
 
-          {/* Category and Duration */}
-          <div className="mt-4 flex items-center gap-4">
-            <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded">
-              {service.category.capitalize()}
-            </span>
-            <span className="text-gray-600">
-              <i className="fas fa-clock mr-2"></i>
-              {service.duration} days
-            </span>
-          </div>
-
-          {/* Description */}
-          <div className="mt-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Description
-            </h2>
-            <p className="text-gray-600">{service.description}</p>
-          </div>
-
-          {/* Services Included */}
-          {service.servicesIncluded && service.servicesIncluded.length > 0 && (
-            <div className="mt-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            {/* Services Included */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
                 Services Included
               </h2>
-              <ul className="list-disc list-inside text-gray-600">
-                {service.servicesIncluded.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
+              {service.servicesIncluded &&
+              service.servicesIncluded.length > 0 ? (
+                <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  {service.servicesIncluded.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-500 italic">No services specified</p>
+              )}
             </div>
-          )}
 
-          {/* Additional Services */}
-          {service.additionalServices &&
-            service.additionalServices.length > 0 && (
-              <div className="mt-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  Additional Services
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Additional Services */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Additional Services
+              </h2>
+              {service.additionalServices &&
+              service.additionalServices.length > 0 ? (
+                <div className="grid grid-cols-1 gap-4">
                   {service.additionalServices.map((item, index) => (
-                    <div key={index} className="border rounded-lg p-4">
-                      <h3 className="font-semibold">{item.name}</h3>
+                    <div
+                      key={index}
+                      className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                    >
+                      <h3 className="font-semibold text-gray-800">
+                        {item.name}
+                      </h3>
                       <div className="flex justify-between mt-2">
-                        <span className="text-gray-600">${item.price}</span>
+                        <span className="text-blue-600 font-medium">
+                          ${item.price}
+                        </span>
                         <span className="text-gray-600">
+                          <i className="fas fa-clock mr-1"></i>
                           {item.duration} days
                         </span>
                       </div>
                     </div>
                   ))}
                 </div>
-              </div>
-            )}
-
-          {/* Search Tags */}
-          {service.searchTags && service.searchTags.length > 0 && (
-            <div className="mt-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Tags</h2>
-              <div className="flex flex-wrap gap-2">
-                {service.searchTags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded"
-                  >
-                    {tag.capitalize()}
-                  </span>
-                ))}
-              </div>
+              ) : (
+                <p className="text-gray-500 italic">
+                  No additional services available
+                </p>
+              )}
             </div>
-          )}
+
+            {/* Search Tags */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Related Tags
+              </h2>
+              {service.searchTags && service.searchTags.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {service.searchTags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded hover:bg-gray-200 transition-colors"
+                    >
+                      {tag.capitalize()}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 italic">No tags available</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
