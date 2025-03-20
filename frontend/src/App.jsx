@@ -11,37 +11,51 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import ServiceDetailsPage from "./pages/freelancer/ServiceDetailsPage";
 
 function App() {
-	return (
-		<>
-			<Routes>
-        <Route element={<MainLayout />} >
+  return (
+    <>
+      <Routes>
+        <Route element={<MainLayout />}>
           {/* General routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+          <Route
+            path="/reset-password/:token"
+            element={<ResetPasswordPage />}
+          />
           {/* Client routes */}
-          <Route path="client" element={<ProtectedRoute requiredUserType="client" />}>
+          <Route
+            path="client"
+            element={<ProtectedRoute requiredUserType="client" />}
+          >
             <Route path="home" element={<Home />} />
           </Route>
           {/* Freelancer routes */}
-          <Route path="freelancer" element={<ProtectedRoute requiredUserType="freelancer" />}>
+          <Route
+            path="freelancer"
+            element={<ProtectedRoute requiredUserType="freelancer" />}
+          >
             <Route path="home" element={<FreelancerServicePage />} />
             <Route path="create-service" element={<ServiceFormPage />} />
+            <Route path=":serviceId" element={<ServiceDetailsPage />} />
           </Route>
           {/* Admin routes */}
-          <Route path="admin" element={<ProtectedRoute requiredUserType="admin" />}>
+          <Route
+            path="admin"
+            element={<ProtectedRoute requiredUserType="admin" />}
+          >
             <Route path="home" element={<Home />} />
           </Route>
         </Route>
-			</Routes>
+      </Routes>
       <ToastContainer />
-		</>
-	);
+    </>
+  );
 }
 
 export default App;
