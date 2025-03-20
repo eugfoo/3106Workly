@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -12,8 +12,10 @@ String.prototype.capitalize = function () {
 const ServiceDetailsPage = () => {
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { serviceId } = useParams();
   const { userInfo } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   //   To Do: update relative route for different users if reusing this page
   const getBasePath = () => {
@@ -54,6 +56,17 @@ const ServiceDetailsPage = () => {
   const markdownContainerStyles = {
     padding: "0",
     background: "transparent",
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/services/${serviceId}`);
+      toast.success("Service deleted successfully");
+      navigate("/freelancer/home");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete service");
+    }
+    setShowDeleteModal(false);
   };
 
   if (loading) {
@@ -110,15 +123,53 @@ const ServiceDetailsPage = () => {
         {/* Only show edit button if user is logged in, is a freelancer, and created this service */}
         {userInfo?.userType === "freelancer" &&
           userInfo?._id === service?.User && (
-            <Link
-              to={`/freelancer/${serviceId}/edit`}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-            >
-              <i className="fas fa-edit mr-2"></i>
-              Edit Service
-            </Link>
+            <div className="flex gap-2">
+              <Link
+                to={`/freelancer/${serviceId}/edit`}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+              >
+                <i className="fas fa-edit mr-2"></i>
+                Edit Service
+              </Link>
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+              >
+                <i className="fas fa-trash-alt mr-2"></i>
+                Delete Service
+              </button>
+            </div>
           )}
       </nav>
+
+      {/* Delete Confirmation Modal with backdrop blur */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4 shadow-xl">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              Delete Service
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this service? This action cannot
+              be undone.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="px-4 py-2 border border-gray-300 text-gray-600 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Column - Sticky */}
