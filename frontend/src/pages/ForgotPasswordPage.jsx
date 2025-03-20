@@ -37,7 +37,9 @@ const ForgotPasswordPage = () => {
 									</p>
 								</div>
 								<div className="mb-5">
-									<label className="block text-sm font-semibold text-gray-700">Email Address</label>
+									<label className="block text-sm font-semibold text-gray-700">
+										Email Address
+									</label>
 									<input
 										type="email"
 										className="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:border-blue-500"
@@ -56,7 +58,10 @@ const ForgotPasswordPage = () => {
 									</button>
 								</div>
 								<div className="flex flex-col sm:flex-row items-center justify-between mb-5">
-									<Link to="/login" className="text-sm text-blue-500 hover:underline">
+									<Link
+										to="/login"
+										className="text-sm text-blue-500 hover:underline"
+									>
 										Back to Login
 									</Link>
 								</div>

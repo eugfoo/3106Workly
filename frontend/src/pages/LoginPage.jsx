@@ -59,38 +59,54 @@ export default function LoginForm() {
 						<form onSubmit={submitHandler}>
 							<div className="bg-white p-8 shadow-md rounded-lg">
 								<div className="mb-4">
-									<h4 className="text-xl font-semibold">We're glad to see you again!</h4>
+									<h4 className="text-xl font-semibold">
+										We're glad to see you again!
+									</h4>
 									<p className="mt-2 text-gray-600">
 										Don't have an account?{" "}
-										<Link to="/register" className="text-blue-500 hover:underline">
+										<Link
+											to="/register"
+											className="text-blue-500 hover:underline"
+										>
 											Register
 										</Link>
 									</p>
 								</div>
 								<div className="mb-5">
-									<label className="block text-sm font-semibold text-gray-700">Email Address</label>
+									<label className="block text-sm font-semibold text-gray-700">
+										Email Address
+									</label>
 									<input
 										type="email"
 										className="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:border-blue-500"
 										placeholder="Enter email"
 										value={formData.email}
-										onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+										onChange={(e) =>
+											setFormData({ ...formData, email: e.target.value })
+										}
 										required
 									/>
 								</div>
 								<div className="mb-4">
-									<label className="block text-sm font-semibold text-gray-700">Password</label>
+									<label className="block text-sm font-semibold text-gray-700">
+										Password
+									</label>
 									<input
 										type="password"
 										className="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:border-blue-500"
 										placeholder="Enter password"
 										value={formData.password}
-										onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+										onChange={(e) =>
+											setFormData({ ...formData, password: e.target.value })
+										}
 										required
 									/>
 								</div>
 								<div className="flex flex-col sm:flex-row items-center justify-between mb-5">
-									<a href="/forgot-password" className="text-sm text-blue-500 hover:underline">
+									<a
+										href="/forgot-password"
+										className="text-sm text-blue-500 hover:underline"
+									>
 										Forgot password?
 									</a>
 								</div>
@@ -101,7 +117,11 @@ export default function LoginForm() {
 										type="submit"
 										disabled={isLoading}
 									>
-										{isLoading ? <i className="fas fa-spinner fa-spin"></i> : <>Login</>}
+										{isLoading ? (
+											<i className="fas fa-spinner fa-spin"></i>
+										) : (
+											<>Login</>
+										)}
 									</button>
 								</div>
 								<div className="flex items-center my-5">
@@ -114,7 +134,8 @@ export default function LoginForm() {
 										type="button"
 										className="flex-1 bg-blue-800 hover:bg-blue-900 text-white text-sm font-normal py-2 px-4 rounded flex items-center justify-center"
 									>
-										<i className="fab fa-facebook-f mr-2" /> Continue with Facebook
+										<i className="fab fa-facebook-f mr-2" /> Continue with
+										Facebook
 									</button>
 									<button
 										type="button"

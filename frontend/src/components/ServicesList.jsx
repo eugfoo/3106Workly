@@ -54,7 +54,9 @@ const ServicesList = ({ services }) => {
 			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Remove links
 			.replace(/`([^`]+)`/g, "$1") // Remove code blocks
 			.trim();
-		return strippedText.length > 50 ? `${strippedText.substring(0, 47)}...` : strippedText;
+		return strippedText.length > 50
+			? `${strippedText.substring(0, 47)}...`
+			: strippedText;
 	};
 
 	return (
@@ -82,7 +84,9 @@ const ServicesList = ({ services }) => {
 									)}
 								</div>
 								<div className="p-4">
-									<h3 className="text-xl font-semibold text-gray-800">{service.title}</h3>
+									<h3 className="text-xl font-semibold text-gray-800">
+										{service.title}
+									</h3>
 									<p className="text-gray-600 mt-2 line-clamp-3">
 										{stripMarkdown(service.description)}
 									</p>
@@ -107,7 +111,9 @@ const ServicesList = ({ services }) => {
 						))}
 					</div>
 				) : (
-					<p className="text-2xl font-bold text-gray-600 text-center mt-6">No services found.</p>
+					<p className="text-2xl font-bold text-gray-600 text-center mt-6">
+						No services found.
+					</p>
 				)}
 			</>
 

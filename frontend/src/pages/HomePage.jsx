@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import ServicesList from "../components/ServicesList";
 
-
 const Home = () => {
 	const [services, setServices] = useState([]);
 	const [loading, setLoading] = useState(true);

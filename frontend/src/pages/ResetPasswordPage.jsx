@@ -16,7 +16,9 @@ const ResetPasswordPage = () => {
 			return;
 		}
 		try {
-			await axios.post(`/api/users/reset-password/${token}`, { newPassword: password });
+			await axios.post(`/api/users/reset-password/${token}`, {
+				newPassword: password,
+			});
 			toast.success("Password reset successfully!");
 			navigate("/login");
 		} catch (error) {
@@ -45,7 +47,9 @@ const ResetPasswordPage = () => {
 									</p>
 								</div>
 								<div className="mb-5">
-									<label className="block text-sm font-semibold text-gray-700">New Password</label>
+									<label className="block text-sm font-semibold text-gray-700">
+										New Password
+									</label>
 									<input
 										type="password"
 										className="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:border-blue-500"
@@ -77,7 +81,10 @@ const ResetPasswordPage = () => {
 									</button>
 								</div>
 								<div className="flex flex-col sm:flex-row items-center justify-between mb-5">
-									<Link to="/login" className="text-sm text-blue-500 hover:underline">
+									<Link
+										to="/login"
+										className="text-sm text-blue-500 hover:underline"
+									>
 										Back to Login
 									</Link>
 								</div>

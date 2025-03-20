@@ -13,8 +13,7 @@ const StepNavigation = ({ currentStep }) => {
 			<div className="max-w-4xl mx-auto px-4 py-4">
 				<div className="flex overflow-x-auto pb-2 hide-scrollbar">
 					<button onClick={handleBack} className="mr-4 hover:text-blue-600">
-						<i className="fas fa-arrow-left"></i>
-						{" "}Back
+						<i className="fas fa-arrow-left"></i> Back
 					</button>
 					<div
 						className={`flex items-center whitespace-nowrap mr-4 ${

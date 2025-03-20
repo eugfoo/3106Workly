@@ -13,8 +13,10 @@ const uploadImages = require("../middleware/storageMiddleware");
 
 const router = express.Router();
 
+
 router.route("/").get(getServices).post(protect, uploadImages("images", 5), createService)
 router.post("/:serviceId/request", protect, createServiceRequest);
+
 
 router.get("/my-services", protect, getAllMyServices);
 router

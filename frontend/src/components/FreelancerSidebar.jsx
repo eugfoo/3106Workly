@@ -29,7 +29,9 @@ const FreelancerSidebar = () => {
 						key={item.path}
 						to={item.path}
 						className={`flex items-center px-6 py-3 text-gray-700 hover:bg-gray-100 transition-colors ${
-							isActive(item.path) ? "bg-blue-50 border-r-4 border-blue-600 text-blue-600" : ""
+							isActive(item.path)
+								? "bg-blue-50 border-r-4 border-blue-600 text-blue-600"
+								: ""
 						}`}
 					>
 						<i className={`${item.icon} w-5 h-5 mr-3`}></i>

@@ -33,7 +33,9 @@ const ServiceEditPage = () => {
 		);
 	}
 
-	return <ServiceForm isEditing={true} initialData={service} serviceId={serviceId} />;
+	return (
+		<ServiceForm isEditing={true} initialData={service} serviceId={serviceId} />
+	);
 };
 
 export default ServiceEditPage;

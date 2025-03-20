@@ -5,7 +5,10 @@ const AdditionalServicesStep = ({ formData, setFormData }) => {
 	const addAdditionalService = () => {
 		setFormData((prev) => ({
 			...prev,
-			additionalServices: [...prev.additionalServices, { name: "", price: "", duration: "" }],
+			additionalServices: [
+				...prev.additionalServices,
+				{ name: "", price: "", duration: "" },
+			],
 		}));
 	};
 
@@ -19,7 +22,9 @@ const AdditionalServicesStep = ({ formData, setFormData }) => {
 	};
 
 	const deleteAdditionalService = (index) => {
-		const updatedServices = formData.additionalServices.filter((_, i) => i !== index);
+		const updatedServices = formData.additionalServices.filter(
+			(_, i) => i !== index,
+		);
 		setFormData((prev) => ({
 			...prev,
 			additionalServices: updatedServices,
@@ -29,7 +34,9 @@ const AdditionalServicesStep = ({ formData, setFormData }) => {
 	return (
 		<div className="space-y-4 md:space-y-6">
 			<div>
-				<label className="block text-sm font-medium text-gray-700 mb-3">Additional Services</label>
+				<label className="block text-sm font-medium text-gray-700 mb-3">
+					Additional Services
+				</label>
 
 				{formData.additionalServices.length > 0 ? (
 					formData.additionalServices.map((service, index) => (
@@ -42,7 +49,9 @@ const AdditionalServicesStep = ({ formData, setFormData }) => {
 						/>
 					))
 				) : (
-					<p className="text-sm text-gray-500 mb-3">No additional services added yet.</p>
+					<p className="text-sm text-gray-500 mb-3">
+						No additional services added yet.
+					</p>
 				)}
 
 				<button
