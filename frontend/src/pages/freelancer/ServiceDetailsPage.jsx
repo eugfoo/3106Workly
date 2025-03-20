@@ -107,15 +107,17 @@ const ServiceDetailsPage = () => {
             </li>
           </ol>
         </div>
-        {userInfo?.userType === "freelancer" && (
-          <Link
-            to={`/freelancer/${serviceId}/edit`}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          >
-            <i className="fas fa-edit mr-2"></i>
-            Edit Service
-          </Link>
-        )}
+        {/* Only show edit button if user is logged in, is a freelancer, and created this service */}
+        {userInfo?.userType === "freelancer" &&
+          userInfo?._id === service?.User && (
+            <Link
+              to={`/freelancer/${serviceId}/edit`}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              <i className="fas fa-edit mr-2"></i>
+              Edit Service
+            </Link>
+          )}
       </nav>
 
       <div className="flex flex-col lg:flex-row gap-8">
