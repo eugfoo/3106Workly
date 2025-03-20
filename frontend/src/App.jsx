@@ -44,13 +44,13 @@ function App() {
           >
             <Route element={<FreelancerLayout />}>
               <Route path="home" element={<FreelancerServicePage />} />
-              <Route path="create-service" element={<ServiceFormPage />} />
-              <Route path=":serviceId" element={<ServiceDetailsPage />} />
-              <Route
-                path="/freelancer/:serviceId/edit"
-                element={<ServiceEditPage />}
-              />
             </Route>
+            <Route path="create-service" element={<ServiceFormPage />} />
+            <Route path=":serviceId" element={<ServiceDetailsPage />} />
+            <Route
+              path="/freelancer/:serviceId/edit"
+              element={<ServiceEditPage />}
+            />
           </Route>
           {/* Admin routes */}
           <Route
