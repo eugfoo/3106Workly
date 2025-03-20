@@ -184,6 +184,14 @@ const ServiceDetailsPage = () => {
 							<div className="flex justify-between items-start mb-4">
 								<h1 className="text-3xl font-bold text-gray-900">{service.title}</h1>
 								<div className="text-2xl font-bold text-blue-600">${service.price}</div>
+								<Link
+    to={`/services/${serviceId}/request`}
+    className="block w-full text-center bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors"
+>
+    <i className="fas fa-file-alt mr-2"></i>
+    Request Service
+</Link>
+
 							</div>
 
 							<div className="flex flex-wrap gap-3 mb-4">
@@ -242,6 +250,13 @@ const ServiceDetailsPage = () => {
 						{/* Additional Services */}
 						<div className="bg-white rounded-lg shadow-lg p-6">
 							<h2 className="text-xl font-semibold text-gray-900 mb-4">Additional Services</h2>
+							<Link
+    to={`/services/${serviceId}/request`}
+    className="mt-4 block text-center bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors"
+>
+    <i className="fas fa-file-alt mr-2"></i>
+    Request This Service
+</Link>
 							{service.additionalServices && service.additionalServices.length > 0 ? (
 								<div className="grid grid-cols-1 gap-4">
 									{service.additionalServices.map((item, index) => (

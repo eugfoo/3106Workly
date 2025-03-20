@@ -32,20 +32,20 @@ function App() {
 					<Route path="/services">
 						<Route path=":serviceId" element={<ServiceDetailsPage />} />
 						<Route element={<ProtectedRoute requiredUserType="user" />}>
-            {/* Freelancer routes */}
-							<Route element={<FreelancerLayout />}>
-								<Route path="manage" element={<FreelancerServicePage />} />
-							</Route>
-               {/* request routes */}
-              <Route path=":serviceId/request" element={<RequestFormPage />} />
-							<Route path="create" element={<ServiceFormPage />} />
-							<Route path=":serviceId/edit" element={<ServiceEditPage />} />
-						</Route>
-					</Route>
+              {/* Freelancer routes */}
+                <Route element={<FreelancerLayout />}>
+                  <Route path="manage" element={<FreelancerServicePage />} />
+                </Route>
+                {/* request routes */}
+                <Route path=":serviceId/request" element={<RequestFormPage />} />
+                <Route path="create" element={<ServiceFormPage />} />
+                <Route path=":serviceId/edit" element={<ServiceEditPage />} />
+              </Route>
+            </Route>
            {/* Admin routes */}
-					<Route path="admin" element={<ProtectedRoute requiredUserType="admin" />}>
-						<Route path="home" element={<Home />} />
-					</Route>
+            <Route path="admin" element={<ProtectedRoute requiredUserType="admin" />}>
+              <Route path="home" element={<Home />} />
+            </Route>
 				</Route>
 			</Routes>
 			<ToastContainer />
