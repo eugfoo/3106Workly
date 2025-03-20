@@ -7,6 +7,7 @@ const {
 	getAllMyServices,
 	getServices,
 	createServiceRequest,
+	getServiceRequests,
 } = require("../controllers/serviceController");
 const { protect } = require("../middleware/authMiddleware");
 const uploadImages = require("../middleware/storageMiddleware");
@@ -20,6 +21,10 @@ router
 router.post("/:serviceId/request", protect, createServiceRequest);
 
 router.get("/my-services", protect, getAllMyServices);
+
+
+router.get("/service-requests", protect, getServiceRequests);
+
 router
 	.route("/:id")
 	.get(protect, getServiceDetails)

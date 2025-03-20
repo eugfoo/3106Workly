@@ -19,6 +19,11 @@ const FreelancerSidebar = () => {
 			icon: "fas fa-tasks",
 			label: "My Projects",
 		},
+		{
+			path: "/services/manage-requests",
+			icon: "fas fa-list-alt",
+			label: "Manage Requests",
+		},
 	];
 
 	return (

@@ -176,6 +176,24 @@ const createServiceRequest = asyncHandler(async (req, res) => {
 });
 
 
+const getServiceRequests = asyncHandler(async (req, res) => {
+	try {
+		console.log("🔹 Fetching service requests for requester:", req.user._id);
+		const requests = await ServiceRequest.find({ requester: req.user._id }).populate("service requester");
+		console.log("🔹 Retrieved Requests:", requests);
+
+		if (!requests.length) {
+			console.warn("⚠️ No requests found for this requester.");
+		}
+
+		res.json(requests);
+	} catch (error) {
+		console.error("❌ Error fetching requests:", error);
+		res.status(500).json({ message: "Failed to fetch service requests" });
+	}
+});
+
+
 
 module.exports = {
 	createService,
@@ -185,4 +203,5 @@ module.exports = {
 	getAllMyServices,
 	getServices,
 	createServiceRequest,
+	getServiceRequests,
 };

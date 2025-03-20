@@ -16,6 +16,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import ServiceDetailsPage from "./pages/freelancer/ServiceDetailsPage";
 import ServiceEditPage from "./pages/freelancer/ServiceEditPage";
 import FreelancerLayout from "./layouts/FreelancerLayout";
+import ManageRequestsPage from "./pages/client/ManageRequestsPage";
 
 function App() {
 	return (
@@ -38,6 +39,7 @@ function App() {
 							{/* Freelancer routes */}
 							<Route element={<FreelancerLayout />}>
 								<Route path="manage" element={<FreelancerServicePage />} />
+								<Route path="manage-requests" element={<ManageRequestsPage />} />
 							</Route>
 							{/* request routes */}
 							<Route path=":serviceId/request" element={<RequestFormPage />} />
