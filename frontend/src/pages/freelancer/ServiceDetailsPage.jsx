@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -47,6 +48,36 @@ const ServiceDetailsPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <nav className="flex mb-8" aria-label="Breadcrumb">
+        <ol className="inline-flex items-center space-x-1 md:space-x-3">
+          <li className="inline-flex items-center">
+            <Link
+              to="/"
+              className="inline-flex items-center text-gray-700 hover:text-blue-600"
+            >
+              <i className="fas fa-home mr-2"></i>
+              Home
+            </Link>
+          </li>
+          <li>
+            <div className="flex items-center">
+              <i className="fas fa-chevron-right text-gray-400 mx-2"></i>
+              <Link to="/" className="text-gray-700 hover:text-blue-600">
+                Services
+              </Link>
+            </div>
+          </li>
+          <li aria-current="page">
+            <div className="flex items-center">
+              <i className="fas fa-chevron-right text-gray-400 mx-2"></i>
+              <span className="text-gray-500 truncate max-w-[200px]">
+                {service.title}
+              </span>
+            </div>
+          </li>
+        </ol>
+      </nav>
+
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Left Column - Sticky */}
         <div className="lg:w-1/2 lg:sticky lg:top-8 lg:self-start">
