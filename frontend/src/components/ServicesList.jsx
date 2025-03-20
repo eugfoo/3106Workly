@@ -1,109 +1,120 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ServicesList = ({ services }) => {
-	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const navigate = useNavigate();
 
-	// Pagination logic
-	const totalPages = Math.ceil(services.length / itemsPerPage);
-	const indexOfLast = currentPage * itemsPerPage;
-	const indexOfFirst = indexOfLast - itemsPerPage;
-	const currentServices = services.slice(indexOfFirst, indexOfLast);
+  // Pagination logic
+  const totalPages = Math.ceil(services.length / itemsPerPage);
+  const indexOfLast = currentPage * itemsPerPage;
+  const indexOfFirst = indexOfLast - itemsPerPage;
+  const currentServices = services.slice(indexOfFirst, indexOfLast);
 
-	const goToPage = (pageNumber) => setCurrentPage(pageNumber);
-	const goPrev = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-	const goNext = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const goToPage = (pageNumber) => setCurrentPage(pageNumber);
+  const goPrev = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const goNext = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
-	return (
-		<div className="p-4">
-			<>
-				{services.length > 0 ? (
-					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-						{currentServices.map((service) => (
-							<div
-								key={service._id}
-								className="border rounded-lg shadow-md hover:shadow-lg transition transform hover:scale-102 bg-white"
-							>
-								<div className="w-full h-40 overflow-hidden rounded-t-lg">
-									{service.images && service.images.length > 0 ? (
-										<img
-											src={service.images[0]}
-											alt="Service Image"
-											className="object-cover w-full h-full"
-										/>
-									) : (
-										<img
-											src="/images/placeholder.png"
-											alt="Service Placeholder"
-											className="object-cover w-full h-full"
-										/>
-									)}
-								</div>
-								<div className="p-4">
-									<h3 className="text-xl font-semibold text-gray-800">{service.title}</h3>
-									<p className="text-gray-600 mt-2">{service.description}</p>
-									{service.searchTags && service.searchTags.length > 0 && (
-										<div className="mt-4 flex flex-wrap gap-2">
-											{service.searchTags.map((tag, index) => (
-												<span
-													key={index}
-													className="bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded"
-												>
-													{tag}
-												</span>
-											))}
-										</div>
-									)}
-								</div>
-							</div>
-						))}
-					</div>
-				) : (
-					<p className="text-2xl font-bold text-gray-600 text-center mt-6">No services found.</p>
-				)}
-			</>
+  const handleCardClick = (serviceId) => {
+    navigate(`/freelancer/${serviceId}`);
+  };
 
-			{services.length > 0 && (
-				<div className="flex justify-center items-center mt-6 space-x-2">
-					<button
-						onClick={goPrev}
-						disabled={currentPage === 1}
-						className={`px-3 py-1 border rounded ${
-							currentPage === 1
-								? "text-gray-400 border-gray-300"
-								: "text-blue-600 border-blue-600 hover:bg-blue-100"
-						}`}
-					>
-						Prev
-					</button>
-					{[...Array(totalPages)].map((_, idx) => (
-						<button
-							key={idx}
-							onClick={() => goToPage(idx + 1)}
-							className={`px-3 py-1 border rounded ${
-								currentPage === idx + 1
-									? "dark:bg-blue-700 text-white"
-									: "text-blue-700 border-blue-700 hover:bg-blue-100"
-							}`}
-						>
-							{idx + 1}
-						</button>
-					))}
-					<button
-						onClick={goNext}
-						disabled={currentPage === totalPages}
-						className={`px-3 py-1 border rounded ${
-							currentPage === totalPages
-								? "text-gray-400 border-gray-300"
-								: "text-blue-600 border-blue-600 hover:bg-blue-100"
-						}`}
-					>
-						Next
-					</button>
-				</div>
-			)}
-		</div>
-	);
+  return (
+    <div className="p-4">
+      <>
+        {services.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {currentServices.map((service) => (
+              <div
+                key={service._id}
+                className="border rounded-lg shadow-md hover:shadow-lg transition transform hover:scale-102 bg-white cursor-pointer"
+                onClick={() => handleCardClick(service._id)}
+              >
+                <div className="w-full h-40 overflow-hidden rounded-t-lg">
+                  {service.images && service.images.length > 0 ? (
+                    <img
+                      src={service.images[0]}
+                      alt="Service Image"
+                      className="object-cover w-full h-full"
+                    />
+                  ) : (
+                    <img
+                      src="/images/placeholder.png"
+                      alt="Service Placeholder"
+                      className="object-cover w-full h-full"
+                    />
+                  )}
+                </div>
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 mt-2">{service.description}</p>
+                  {service.searchTags && service.searchTags.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {service.searchTags.map((tag, index) => (
+                        <span
+                          key={index}
+                          className="bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-2xl font-bold text-gray-600 text-center mt-6">
+            No services found.
+          </p>
+        )}
+      </>
+
+      {services.length > 0 && (
+        <div className="flex justify-center items-center mt-6 space-x-2">
+          <button
+            onClick={goPrev}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 border rounded ${
+              currentPage === 1
+                ? "text-gray-400 border-gray-300"
+                : "text-blue-600 border-blue-600 hover:bg-blue-100"
+            }`}
+          >
+            Prev
+          </button>
+          {[...Array(totalPages)].map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => goToPage(idx + 1)}
+              className={`px-3 py-1 border rounded ${
+                currentPage === idx + 1
+                  ? "dark:bg-blue-700 text-white"
+                  : "text-blue-700 border-blue-700 hover:bg-blue-100"
+              }`}
+            >
+              {idx + 1}
+            </button>
+          ))}
+          <button
+            onClick={goNext}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 border rounded ${
+              currentPage === totalPages
+                ? "text-gray-400 border-gray-300"
+                : "text-blue-600 border-blue-600 hover:bg-blue-100"
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default ServicesList;
