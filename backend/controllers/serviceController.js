@@ -25,7 +25,7 @@ const createService = asyncHandler(async (req, res) => {
     questionPrompt,
     additionalServices,
     images: req.files
-      ? req.files.map((file) => file.path.replace("backend/public", "").replace("baclend\\public", ""))
+      ? req.files.map((file) => file.path.replace("backend/public", "").replace("backend\\public", ""))
       : [],
     User: req.user._id,
   });
@@ -70,7 +70,7 @@ const updateService = asyncHandler(async (req, res) => {
 
     if (req.files) {
       service.images = req.files.map((file) =>
-        file.path.replace("backend/public", "").replace("baclend\\public", "")
+        file.path.replace("backend/public", "").replace("backend\\public", "")
       );
     }
 
