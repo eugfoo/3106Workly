@@ -9,6 +9,7 @@ import Login from "./pages/LoginPage";
 import Register from "./pages/RegistrationPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import RequestFormPage from "./pages/client/RequestFormPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -27,6 +28,8 @@ function App() {
           {/* Client routes */}
           <Route path="client" element={<ProtectedRoute requiredUserType="client" />}>
             <Route path="home" element={<Home />} />
+            {/* Create Request route */}
+            <Route path="create-request" element={<RequestFormPage />} />
           </Route>
           {/* Freelancer routes */}
           <Route path="freelancer" element={<ProtectedRoute requiredUserType="freelancer" />}>
