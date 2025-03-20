@@ -12,6 +12,20 @@ const ServiceDetailsPage = () => {
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const { serviceId } = useParams();
+  const { userInfo } = useSelector((state) => state.auth);
+
+  //   To Do: update relative route for different users if reusing this page
+  const getBasePath = () => {
+    if (!userInfo) return "/";
+    switch (userInfo.userType) {
+      case "freelancer":
+        return "/freelancer/home";
+      case "admin":
+        return "/admin/services";
+      default:
+        return "/";
+    }
+  };
 
   useEffect(() => {
     const fetchServiceDetails = async () => {
@@ -52,7 +66,7 @@ const ServiceDetailsPage = () => {
         <ol className="inline-flex items-center space-x-1 md:space-x-3">
           <li className="inline-flex items-center">
             <Link
-              to="/"
+              to={getBasePath()}
               className="inline-flex items-center text-gray-700 hover:text-blue-600"
             >
               <i className="fas fa-home mr-2"></i>
@@ -62,7 +76,10 @@ const ServiceDetailsPage = () => {
           <li>
             <div className="flex items-center">
               <i className="fas fa-chevron-right text-gray-400 mx-2"></i>
-              <Link to="/" className="text-gray-700 hover:text-blue-600">
+              <Link
+                to={getBasePath()}
+                className="text-gray-700 hover:text-blue-600"
+              >
                 Services
               </Link>
             </div>
