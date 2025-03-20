@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AdditionalServiceItem from "../../components/AdditionalServiceItem";
 import axios from "axios";
 import { toast } from "react-toastify";
-import ReactMde from "react-mde";
-import ReactMarkdown from "react-markdown";
-import "react-mde/lib/styles/css/react-mde-all.css";
+import MDEditor, { commands } from "@uiw/react-md-editor";
 
 const ServiceForm = () => {
   const navigate = useNavigate();
@@ -24,13 +22,6 @@ const ServiceForm = () => {
   });
 
   const [imagePreviews, setImagePreviews] = useState([]);
-  const [selectedTab, setSelectedTab] = useState("write");
-
-  // Using predefined command names from react-mde
-  const toolbarCommands = [
-    ["header", "bold", "italic", "strikethrough"],
-    ["unordered-list", "ordered-list"],
-  ];
 
   const addAdditionalService = () => {
     setFormData((prev) => ({
@@ -119,6 +110,20 @@ const ServiceForm = () => {
     e.preventDefault();
     setCurrentStep((prev) => prev - 1);
   };
+
+  // Define individual commands in a single row
+  const customCommands = [
+    commands.title1,
+    commands.title2,
+    commands.title3,
+    commands.divider,
+    commands.bold,
+    commands.italic,
+    commands.strikethrough,
+    commands.divider,
+    commands.unorderedListCommand,
+    commands.orderedListCommand,
+  ];
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -228,18 +233,18 @@ const ServiceForm = () => {
                   <label className="block text-gray-700 text-sm font-bold mb-2">
                     Description
                   </label>
-                  <ReactMde
-                    value={formData.description}
-                    onChange={(value) =>
-                      setFormData((prev) => ({ ...prev, description: value }))
-                    }
-                    selectedTab={selectedTab}
-                    onTabChange={setSelectedTab}
-                    toolbarCommands={toolbarCommands}
-                    generateMarkdownPreview={(markdown) =>
-                      Promise.resolve(<ReactMarkdown>{markdown}</ReactMarkdown>)
-                    }
-                  />
+                  <div data-color-mode="light">
+                    <MDEditor
+                      value={formData.description}
+                      onChange={(value) =>
+                        setFormData((prev) => ({ ...prev, description: value }))
+                      }
+                      preview="edit"
+                      height={200}
+                      commands={customCommands}
+                      extraCommands={[]}
+                    />
+                  </div>
                 </div>
 
                 {/* Wrapped category and project duration in a grid container */}
@@ -348,21 +353,21 @@ const ServiceForm = () => {
                   <label className="block text-gray-700 text-sm font-bold mb-2">
                     Questions for Client
                   </label>
-                  <ReactMde
-                    value={formData.questionPrompt}
-                    onChange={(value) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        questionPrompt: value,
-                      }))
-                    }
-                    selectedTab={selectedTab}
-                    onTabChange={setSelectedTab}
-                    toolbarCommands={toolbarCommands}
-                    generateMarkdownPreview={(markdown) =>
-                      Promise.resolve(<ReactMarkdown>{markdown}</ReactMarkdown>)
-                    }
-                  />
+                  <div data-color-mode="light">
+                    <MDEditor
+                      value={formData.questionPrompt}
+                      onChange={(value) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          questionPrompt: value,
+                        }))
+                      }
+                      preview="edit"
+                      height={200}
+                      commands={customCommands}
+                      extraCommands={[]}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">

@@ -3,8 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
-import ReactMarkdown from "react-markdown";
-import "react-mde/lib/styles/css/react-mde-all.css";
+import MDEditor from "@uiw/react-md-editor";
 
 String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
@@ -137,15 +136,16 @@ const ServiceDetailsPage = () => {
                 </span>
               </div>
 
-              {/* Description with markdown */}
+              {/* Description/Quick Overview */}
               <div className="mt-4">
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
                   Quick Overview
                 </h2>
-                <div className="prose max-w-none text-gray-600">
-                  <ReactMarkdown>
-                    {service.description || "No description provided"}
-                  </ReactMarkdown>
+                <div data-color-mode="light">
+                  <MDEditor.Markdown
+                    source={service.description || "No description provided"}
+                    style={{ whiteSpace: "pre-wrap" }}
+                  />
                 </div>
               </div>
             </div>
@@ -155,15 +155,16 @@ const ServiceDetailsPage = () => {
         {/* Right Column - Scrollable */}
         <div className="lg:w-1/2">
           <div className="space-y-8">
-            {/* Question Prompt with markdown */}
+            {/* Questions for Client */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
                 Questions for Client
               </h2>
-              <div className="prose max-w-none text-gray-600">
-                <ReactMarkdown>
-                  {service.questionPrompt || "No questions specified"}
-                </ReactMarkdown>
+              <div data-color-mode="light">
+                <MDEditor.Markdown
+                  source={service.questionPrompt || "No questions specified"}
+                  style={{ whiteSpace: "pre-wrap" }}
+                />
               </div>
             </div>
 
@@ -231,7 +232,7 @@ const ServiceDetailsPage = () => {
                       key={index}
                       className="bg-gray-100 text-gray-800 text-sm font-medium px-3 py-1 rounded hover:bg-gray-200 transition-colors"
                     >
-                      {tag}
+                      {tag.capitalize()}
                     </span>
                   ))}
                 </div>
