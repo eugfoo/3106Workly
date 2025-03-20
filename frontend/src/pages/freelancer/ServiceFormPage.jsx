@@ -17,6 +17,8 @@ const ServiceForm = ({ isEditing = false, initialData = null, serviceId = null }
 			? {
 					...initialData,
 					searchTags: initialData.searchTags.join(", "),
+					price: initialData.price.toString(),
+					duration: initialData.duration.toString(),
 					images: [], // Clear images as we can't populate File objects
 			  }
 			: {
