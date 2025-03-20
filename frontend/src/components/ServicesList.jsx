@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ServicesList = ({ services }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const navigate = useNavigate();
+
+  // Get user info from Redux store
+  const { userInfo } = useSelector((state) => state.auth);
 
   // Pagination logic
   const totalPages = Math.ceil(services.length / itemsPerPage);
@@ -17,7 +21,24 @@ const ServicesList = ({ services }) => {
   const goNext = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   const handleCardClick = (serviceId) => {
-    navigate(`/freelancer/${serviceId}`);
+    // Route based on user type
+    if (!userInfo) {
+      // Not logged in
+      navigate(`/services/${serviceId}`);
+    } else {
+      switch (userInfo.userType) {
+        case "freelancer":
+          navigate(`/freelancer/${serviceId}`);
+          break;
+        case "admin": // To Do: Update with the correct admin route
+          navigate(`/admin/services/${serviceId}`);
+          break;
+        case "client": // To Do: Update with the correct admin route
+        default:
+          navigate(`/services/${serviceId}`);
+          break;
+      }
+    }
   };
 
   return (
