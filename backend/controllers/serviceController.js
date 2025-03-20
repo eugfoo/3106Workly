@@ -128,6 +128,30 @@ const getServices = asyncHandler(async (req, res) => {
 	}
 });
 
+// request for a service 
+const requestService = asyncHandler(async (req, res) => {
+    const { message, additionalRequests } = req.body;
+    const { id } = req.params; // Service ID from URL
+
+    const service = await Service.findById(id);
+    if (!service) {
+        res.status(404);
+        throw new Error("Service not found");
+    }
+
+    const serviceRequest = new ServiceRequest({
+        service: id, // Service being requested
+        provider: service.User, // Freelancer ID from the service
+        requester: req.user._id, // Logged-in user making the request
+        message,
+        additionalRequests,
+        status: "pending",
+    });
+
+    const createdRequest = await serviceRequest.save();
+    res.status(201).json(createdRequest);
+});
+
 module.exports = {
 	createService,
 	updateService,
@@ -135,4 +159,5 @@ module.exports = {
 	getServiceDetails,
 	getAllMyServices,
 	getServices,
+	requestService,
 };

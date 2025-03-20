@@ -6,6 +6,7 @@ const {
 	getServiceDetails,
 	getAllMyServices,
 	getServices,
+	requestService,
 } = require("../controllers/serviceController");
 const { protect, freelancer } = require("../middleware/authMiddleware");
 const uploadImages = require("../middleware/storageMiddleware");
@@ -18,6 +19,7 @@ router
 	.route("/:id")
 	.get(protect, getServiceDetails)
 	.put(protect, freelancer, uploadImages("images"), updateService)
-	.delete(protect, freelancer, deleteService);
+	.delete(protect, freelancer, deleteService)
+	.post(protect, requestService); 
 
 module.exports = router;
