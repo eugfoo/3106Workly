@@ -37,7 +37,9 @@ const ServiceDetailsPage = () => {
 				setService(response.data);
 				setLoading(false);
 			} catch (error) {
-				toast.error(error.response?.data?.message || "Failed to fetch service details");
+				toast.error(
+					error.response?.data?.message || "Failed to fetch service details",
+				);
 				setLoading(false);
 			}
 		};
@@ -100,7 +102,10 @@ const ServiceDetailsPage = () => {
 						<li>
 							<div className="flex items-center">
 								<i className="fas fa-chevron-right text-gray-400 mx-2"></i>
-								<Link to={getBasePath()} className="text-gray-700 hover:text-blue-600">
+								<Link
+									to={getBasePath()}
+									className="text-gray-700 hover:text-blue-600"
+								>
 									Services
 								</Link>
 							</div>
@@ -108,7 +113,9 @@ const ServiceDetailsPage = () => {
 						<li aria-current="page">
 							<div className="flex items-center">
 								<i className="fas fa-chevron-right text-gray-400 mx-2"></i>
-								<span className="text-gray-500 truncate max-w-[200px]">{service.title}</span>
+								<span className="text-gray-500 truncate max-w-[200px]">
+									{service.title}
+								</span>
 							</div>
 						</li>
 					</ol>
@@ -138,9 +145,12 @@ const ServiceDetailsPage = () => {
 			{showDeleteModal && (
 				<div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
 					<div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4 shadow-xl">
-						<h3 className="text-xl font-semibold text-gray-900 mb-4">Delete Service</h3>
+						<h3 className="text-xl font-semibold text-gray-900 mb-4">
+							Delete Service
+						</h3>
 						<p className="text-gray-600 mb-6">
-							Are you sure you want to delete this service? This action cannot be undone.
+							Are you sure you want to delete this service? This action cannot
+							be undone.
 						</p>
 						<div className="flex justify-end gap-3">
 							<button
@@ -182,8 +192,12 @@ const ServiceDetailsPage = () => {
 						{/* Basic Information */}
 						<div className="p-6">
 							<div className="flex justify-between items-start mb-4">
-								<h1 className="text-3xl font-bold text-gray-900">{service.title}</h1>
-								<div className="text-2xl font-bold text-blue-600">${service.price}</div>
+								<h1 className="text-3xl font-bold text-gray-900">
+									{service.title}
+								</h1>
+								<div className="text-2xl font-bold text-blue-600">
+									${service.price}
+								</div>
 							</div>
 
 							<div className="flex flex-wrap gap-3 mb-4">
@@ -198,7 +212,11 @@ const ServiceDetailsPage = () => {
 							<hr className="my-6 border-t border-gray-200" />
 							{/* Description/Quick Overview */}
 							<div className="mt-4">
-								<div data-color-mode="light" className="text-gray-600" style={markdownContainerStyles}>
+								<div
+									data-color-mode="light"
+									className="text-gray-600"
+									style={markdownContainerStyles}
+								>
 									<MDEditor.Markdown
 										source={service.description || "No description provided"}
 										style={markdownStyles}
@@ -215,8 +233,14 @@ const ServiceDetailsPage = () => {
 					<div className="space-y-8">
 						{/* Questions for Client */}
 						<div className="bg-white rounded-lg shadow-lg p-6">
-							<h2 className="text-xl font-semibold text-gray-900 mb-4">Questions for Client</h2>
-							<div data-color-mode="light" className="text-gray-600" style={markdownContainerStyles}>
+							<h2 className="text-xl font-semibold text-gray-900 mb-4">
+								Questions for Client
+							</h2>
+							<div
+								data-color-mode="light"
+								className="text-gray-600"
+								style={markdownContainerStyles}
+							>
 								<MDEditor.Markdown
 									source={service.questionPrompt || "No questions specified"}
 									style={markdownStyles}
@@ -227,8 +251,11 @@ const ServiceDetailsPage = () => {
 
 						{/* Services Included */}
 						<div className="bg-white rounded-lg shadow-lg p-6">
-							<h2 className="text-xl font-semibold text-gray-900 mb-4">Services Included</h2>
-							{service.servicesIncluded && service.servicesIncluded.length > 0 ? (
+							<h2 className="text-xl font-semibold text-gray-900 mb-4">
+								Services Included
+							</h2>
+							{service.servicesIncluded &&
+							service.servicesIncluded.length > 0 ? (
 								<ul className="list-disc list-inside text-gray-600 space-y-2">
 									{service.servicesIncluded.map((item, index) => (
 										<li key={index}>{item}</li>
@@ -241,17 +268,24 @@ const ServiceDetailsPage = () => {
 
 						{/* Additional Services */}
 						<div className="bg-white rounded-lg shadow-lg p-6">
-							<h2 className="text-xl font-semibold text-gray-900 mb-4">Additional Services</h2>
-							{service.additionalServices && service.additionalServices.length > 0 ? (
+							<h2 className="text-xl font-semibold text-gray-900 mb-4">
+								Additional Services
+							</h2>
+							{service.additionalServices &&
+							service.additionalServices.length > 0 ? (
 								<div className="grid grid-cols-1 gap-4">
 									{service.additionalServices.map((item, index) => (
 										<div
 											key={index}
 											className="border rounded-lg p-4 hover:shadow-md transition-shadow"
 										>
-											<h3 className="font-semibold text-gray-800">{item.name}</h3>
+											<h3 className="font-semibold text-gray-800">
+												{item.name}
+											</h3>
 											<div className="flex justify-between mt-2">
-												<span className="text-blue-600 font-medium">${item.price}</span>
+												<span className="text-blue-600 font-medium">
+													${item.price}
+												</span>
 												<span className="text-gray-600">
 													<i className="fas fa-clock mr-1"></i>
 													{item.duration} days
@@ -261,13 +295,17 @@ const ServiceDetailsPage = () => {
 									))}
 								</div>
 							) : (
-								<p className="text-gray-500 italic">No additional services available</p>
+								<p className="text-gray-500 italic">
+									No additional services available
+								</p>
 							)}
 						</div>
 
 						{/* Search Tags */}
 						<div className="bg-white rounded-lg shadow-lg p-6">
-							<h2 className="text-xl font-semibold text-gray-900 mb-4">Related Tags</h2>
+							<h2 className="text-xl font-semibold text-gray-900 mb-4">
+								Related Tags
+							</h2>
 							{service.searchTags && service.searchTags.length > 0 ? (
 								<div className="flex flex-wrap gap-2">
 									{service.searchTags.map((tag, index) => (

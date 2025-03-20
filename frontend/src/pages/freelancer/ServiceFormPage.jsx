@@ -8,7 +8,11 @@ import AdditionalServiceStep from "../../components/ServiceForm/AdditionalServic
 import OtherInformationStep from "../../components/ServiceForm/OtherInformationStep";
 import { commands } from "@uiw/react-md-editor";
 
-const ServiceForm = ({ isEditing = false, initialData = null, serviceId = null }) => {
+const ServiceForm = ({
+	isEditing = false,
+	initialData = null,
+	serviceId = null,
+}) => {
 	const navigate = useNavigate();
 	const [currentStep, setCurrentStep] = useState(1);
 
@@ -20,7 +24,7 @@ const ServiceForm = ({ isEditing = false, initialData = null, serviceId = null }
 					price: initialData.price.toString(),
 					duration: initialData.duration.toString(),
 					images: [], // Clear images as we can't populate File objects
-			  }
+				}
 			: {
 					title: "",
 					category: "",
@@ -31,7 +35,7 @@ const ServiceForm = ({ isEditing = false, initialData = null, serviceId = null }
 					questionPrompt: "",
 					images: [],
 					additionalServices: [],
-			  }
+				},
 	);
 
 	const handleChange = (e) => {
@@ -58,7 +62,10 @@ const ServiceForm = ({ isEditing = false, initialData = null, serviceId = null }
 			} else if (key === "additionalServices") {
 				formData[key].forEach((service, index) => {
 					Object.keys(service).forEach((serviceKey) => {
-						data.append(`additionalServices[${index}][${serviceKey}]`, service[serviceKey]);
+						data.append(
+							`additionalServices[${index}][${serviceKey}]`,
+							service[serviceKey],
+						);
 					});
 				});
 			} else {
@@ -94,11 +101,19 @@ const ServiceForm = ({ isEditing = false, initialData = null, serviceId = null }
 			errors.category = "Category is required";
 		}
 
-		if (!formData.price.trim() || isNaN(formData.price) || Number(formData.price) <= 0) {
+		if (
+			!formData.price.trim() ||
+			isNaN(formData.price) ||
+			Number(formData.price) <= 0
+		) {
 			errors.price = "Invalid base price";
 		}
 
-		if (!formData.duration.trim() || isNaN(formData.duration) || Number(formData.duration) <= 0) {
+		if (
+			!formData.duration.trim() ||
+			isNaN(formData.duration) ||
+			Number(formData.duration) <= 0
+		) {
 			errors.duration = "Invalid estimated duration";
 		}
 
@@ -111,11 +126,14 @@ const ServiceForm = ({ isEditing = false, initialData = null, serviceId = null }
 		if (formData.additionalServices.length > 0) {
 			formData.additionalServices.forEach((service, index) => {
 				if (!service.name.trim()) {
-					errors[`additionalService${index}`] = "Additional service name cannot be empty";
+					errors[`additionalService${index}`] =
+						"Additional service name cannot be empty";
 				} else if (isNaN(service.price) || Number(service.price) <= 0) {
-					errors[`additionalService${index}`] = "Invalid additional service price";
+					errors[`additionalService${index}`] =
+						"Invalid additional service price";
 				} else if (isNaN(service.duration) || Number(service.duration) <= 0) {
-					errors[`additionalService${index}`] = "Invalid additional service duration";
+					errors[`additionalService${index}`] =
+						"Invalid additional service duration";
 				}
 			});
 		}
@@ -168,7 +186,12 @@ const ServiceForm = ({ isEditing = false, initialData = null, serviceId = null }
 							/>
 						)}
 						{/* Step 2: Pricing */}
-						{currentStep === 2 && <AdditionalServiceStep formData={formData} setFormData={setFormData} />}
+						{currentStep === 2 && (
+							<AdditionalServiceStep
+								formData={formData}
+								setFormData={setFormData}
+							/>
+						)}
 						{/* Step 3: Description */}
 						{currentStep === 3 && (
 							<OtherInformationStep

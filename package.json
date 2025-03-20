@@ -7,7 +7,8 @@
   "scripts": {
     "server": "nodemon --env-file=.env backend/server.js",
     "client": "npm run dev --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "format" : "npx prettier --write **/*.{js,jsx,md}"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   "homepage": "https://github.com/RyanLucasHo/Workly#readme",
   "dependencies": {
     "@emailjs/nodejs": "^5.0.2",
+    "@paypal/paypal-server-sdk": "^0.6.1",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

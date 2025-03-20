@@ -22,17 +22,21 @@ const upload = multer({
 	limits: { fileSize: 1000000 },
 	fileFilter,
 });
-const uploadImages = (fieldName, fileCount = 1) => (req, res, next) => {
-	upload.array(fieldName, fileCount)(req, res, (err) => {
-		if (req.fileValidationError) {
-			res.status(400).json({ message: req.fileValidationError });
-		} else if (err instanceof multer.MulterError) {
-			res.status(400).json({ message: err.message });
-		} else if (err) {
-			res.status(400).json({ message: "An unknown error occurred during file upload." });
-		}
-		next();
-	});
-};
+const uploadImages =
+	(fieldName, fileCount = 1) =>
+	(req, res, next) => {
+		upload.array(fieldName, fileCount)(req, res, (err) => {
+			if (req.fileValidationError) {
+				res.status(400).json({ message: req.fileValidationError });
+			} else if (err instanceof multer.MulterError) {
+				res.status(400).json({ message: err.message });
+			} else if (err) {
+				res
+					.status(400)
+					.json({ message: "An unknown error occurred during file upload." });
+			}
+			next();
+		});
+	};
 
 module.exports = uploadImages;

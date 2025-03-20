@@ -122,13 +122,18 @@ const forgotPassword = asyncHandler(async (req, res) => {
 		reset_link: resetLink,
 	};
 
-	const result = await emailjs.send(process.env.EMAILJS_SERVICE_ID, process.env.EMAILJS_TEMPLATE_ID, templateParams, {
-		publicKey: process.env.EMAILJS_PUBLIC_KEY,
-		privateKey: process.env.EMAILJS_PRIVATE_KEY,
-		headers: {
-			origin: "http://localhost",
+	const result = await emailjs.send(
+		process.env.EMAILJS_SERVICE_ID,
+		process.env.EMAILJS_TEMPLATE_ID,
+		templateParams,
+		{
+			publicKey: process.env.EMAILJS_PUBLIC_KEY,
+			privateKey: process.env.EMAILJS_PRIVATE_KEY,
+			headers: {
+				origin: "http://localhost",
+			},
 		},
-	});
+	);
 
 	if (result.status !== 200) {
 		res.status(500).json({ message: "Error sending email" });
@@ -141,7 +146,10 @@ const resetPassword = asyncHandler(async (req, res) => {
 	const { token } = req.params;
 	const { newPassword } = req.body;
 
-	const user = await User.findOne({ resetToken: token, tokenExpiration: { $gt: Date.now() } });
+	const user = await User.findOne({
+		resetToken: token,
+		tokenExpiration: { $gt: Date.now() },
+	});
 
 	if (!user) {
 		return res.status(400).json({ message: "Invalid or expired token" });

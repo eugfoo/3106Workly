@@ -1,7 +1,9 @@
 # Workly
 
 ## Setup
+
 Project Structure
+
 ```
 backend/
 frontend/
@@ -23,11 +25,13 @@ package-lock.json
 package.json
 README.md
 ```
-The node_modules folder for the backend is in the root directory. To install any npm packages for the backend, make sure that you are in this directory.  
 
-The node_modules folder for the frontend is in the frontend/ directory. Again, make sure that you are in the correct directory.  
+The node_modules folder for the backend is in the root directory. To install any npm packages for the backend, make sure that you are in this directory.
 
-Within the root directory, create a `.env` file and enter the following environment variables:  
+The node_modules folder for the frontend is in the frontend/ directory. Again, make sure that you are in the correct directory.
+
+Within the root directory, create a `.env` file and enter the following environment variables:
+
 ```
 PORT=8000
 DATABASE_URL=mongodb://localhost:27017/workly
@@ -38,6 +42,6 @@ EMAILJS_PUBLIC_KEY=CX1n_PEs7nMjxftrM
 EMAILJS_PRIVATE_KEY=E2GBBplRkB0ANKaOIHTbN
 ```
 
-Before running the project, make sure to install the necessary packages in both the frontend and backend using `npm install`  
+Before running the project, make sure to install the necessary packages in both the frontend and backend using `npm install`
 
-To run the entire project (Both frontend and backend), use `npm run dev` in the root directory  
+To run the entire project (Both frontend and backend), use `npm run dev` in the root directory

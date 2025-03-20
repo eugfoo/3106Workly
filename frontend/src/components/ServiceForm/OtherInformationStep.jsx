@@ -16,7 +16,8 @@ const OtherInformationStep = ({ formData, setFormData, customCommands }) => {
 					Add questions
 					<br />
 					<span className="text-xs text-gray-500">
-						Help clients provide information about what you need to get started on their order
+						Help clients provide information about what you need to get started
+						on their order
 					</span>
 				</label>
 				<div data-color-mode="light">
@@ -35,14 +36,17 @@ const OtherInformationStep = ({ formData, setFormData, customCommands }) => {
 					/>
 				</div>
 				<p className="text-xs text-gray-500 mt-2">
-					These questions will be fed into our AI model and regenerated as prompts for your clients
+					These questions will be fed into our AI model and regenerated as
+					prompts for your clients
 				</p>
 			</div>
 			<div>
 				<label className="block text-sm font-medium text-gray-700 mb-1">
 					Add Images
 					<br />
-					<span className="text-xs text-gray-500">Showcase your services in a gallery</span>
+					<span className="text-xs text-gray-500">
+						Showcase your services in a gallery
+					</span>
 				</label>
 				<div className="border border-gray-300 rounded-md p-4 text-center">
 					<input
@@ -82,7 +86,9 @@ const OtherInformationStep = ({ formData, setFormData, customCommands }) => {
 									alt={`Preview ${index + 1}`}
 									className="w-full h-auto rounded-md border"
 								/>
-								<p className="text-xs text-gray-500 mt-1">{formData.images[index]?.name}</p>
+								<p className="text-xs text-gray-500 mt-1">
+									{formData.images[index]?.name}
+								</p>
 							</div>
 						))}
 					</div>

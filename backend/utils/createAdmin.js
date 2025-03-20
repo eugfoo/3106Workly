@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 
-const createAdmin = async() => {
+const createAdmin = async () => {
 	try {
 		const existingAdmin = await User.findOne({ userType: "admin" });
 		if (!existingAdmin) {
@@ -18,6 +18,6 @@ const createAdmin = async() => {
 	} catch (error) {
 		console.error("Error creating admin user:", error);
 	}
-}
+};
 
 module.exports = createAdmin;

@@ -26,7 +26,10 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/forgot-password" element={<ForgotPasswordPage />} />
-					<Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+					<Route
+						path="/reset-password/:token"
+						element={<ResetPasswordPage />}
+					/>
 
 					<Route path="/services">
 						<Route path=":serviceId" element={<ServiceDetailsPage />} />
@@ -39,7 +42,10 @@ function App() {
 						</Route>
 					</Route>
 
-					<Route path="admin" element={<ProtectedRoute requiredUserType="admin" />}>
+					<Route
+						path="admin"
+						element={<ProtectedRoute requiredUserType="admin" />}
+					>
 						<Route path="home" element={<Home />} />
 					</Route>
 				</Route>
