@@ -12,37 +12,43 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import RequestFormPage from "./pages/client/RequestFormPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import ServiceDetailsPage from "./pages/freelancer/ServiceDetailsPage";
+import ServiceEditPage from "./pages/freelancer/ServiceEditPage";
+import FreelancerLayout from "./layouts/FreelancerLayout";
 
 function App() {
 	return (
 		<>
 			<Routes>
-        <Route element={<MainLayout />} >
-          {/* General routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-          {/* Client routes */}
-          <Route path="client" element={<ProtectedRoute requiredUserType="client" />}>
-            <Route path="home" element={<Home />} />
-            {/* Create Request route */}
-            <Route path="create-request" element={<RequestFormPage />} />
-          </Route>
-          {/* Freelancer routes */}
-          <Route path="freelancer" element={<ProtectedRoute requiredUserType="freelancer" />}>
-            <Route path="home" element={<FreelancerServicePage />} />
-            <Route path="create-service" element={<ServiceFormPage />} />
-          </Route>
-          {/* Admin routes */}
-          <Route path="admin" element={<ProtectedRoute requiredUserType="admin" />}>
-            <Route path="home" element={<Home />} />
-          </Route>
-        </Route>
+				<Route element={<MainLayout />}>
+					{/* General routes */}
+					<Route path="/" element={<Home />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/forgot-password" element={<ForgotPasswordPage />} />
+					<Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+
+					<Route path="/services">
+						<Route path=":serviceId" element={<ServiceDetailsPage />} />
+						<Route element={<ProtectedRoute requiredUserType="user" />}>
+            {/* Freelancer routes */}
+							<Route element={<FreelancerLayout />}>
+								<Route path="manage" element={<FreelancerServicePage />} />
+							</Route>
+               {/* request routes */}
+              <Route path=":serviceId/request" element={<RequestFormPage />} />
+							<Route path="create" element={<ServiceFormPage />} />
+							<Route path=":serviceId/edit" element={<ServiceEditPage />} />
+						</Route>
+					</Route>
+           {/* Admin routes */}
+					<Route path="admin" element={<ProtectedRoute requiredUserType="admin" />}>
+						<Route path="home" element={<Home />} />
+					</Route>
+				</Route>
 			</Routes>
-      <ToastContainer />
+			<ToastContainer />
 		</>
 	);
 }

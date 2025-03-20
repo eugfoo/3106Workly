@@ -26,7 +26,7 @@ const serviceRequestSchema = mongoose.Schema(
             hosting: { type: Boolean, default: false },
         },
 
-        finalDeadline: { type: Date, required: false },
+        finalDeadline: { type: Date },
 
         legalDocuments: {
             nda: { type: Boolean, default: false },

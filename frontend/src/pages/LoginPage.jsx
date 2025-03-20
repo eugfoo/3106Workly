@@ -18,7 +18,7 @@ export default function LoginForm() {
 
 	useEffect(() => {
 		if (userInfo) {
-			navigate(`/${userInfo.userType}/home`);
+			navigate(userInfo.userType === "admin" ? "/admin/home" : "/");
 		}
 	}, [userInfo, navigate]);
 
@@ -27,7 +27,7 @@ export default function LoginForm() {
 		try {
 			const res = await login(formData).unwrap();
 			dispatch(setCredentials({ ...res }));
-			navigate(`/${userInfo.userType}/home`);
+			navigate(userInfo.userType === "admin" ? "/admin/home" : "/");
 		} catch (err) {
 			toast.error(err?.data.message || err.error);
 		}
