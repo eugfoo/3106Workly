@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ServiceDetailsPage from "./pages/freelancer/ServiceDetailsPage";
+import ServiceEditPage from "./pages/freelancer/ServiceEditPage";
 
 function App() {
   return (
@@ -43,6 +44,10 @@ function App() {
             <Route path="home" element={<FreelancerServicePage />} />
             <Route path="create-service" element={<ServiceFormPage />} />
             <Route path=":serviceId" element={<ServiceDetailsPage />} />
+            <Route
+              path="/freelancer/:serviceId/edit"
+              element={<ServiceEditPage />}
+            />
           </Route>
           {/* Admin routes */}
           <Route

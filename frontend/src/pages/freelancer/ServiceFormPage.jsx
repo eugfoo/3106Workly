@@ -5,21 +5,33 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 
-const ServiceForm = () => {
+const ServiceForm = ({
+  isEditing = false,
+  initialData = null,
+  serviceId = null,
+}) => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
 
-  const [formData, setFormData] = useState({
-    title: "",
-    category: "",
-    description: "",
-    price: "",
-    duration: "",
-    searchTags: "",
-    questionPrompt: "",
-    images: [],
-    additionalServices: [],
-  });
+  const [formData, setFormData] = useState(
+    isEditing
+      ? {
+          ...initialData,
+          searchTags: initialData.searchTags.join(", "),
+          images: [], // Clear images as we can't populate File objects
+        }
+      : {
+          title: "",
+          category: "",
+          description: "",
+          price: "",
+          duration: "",
+          searchTags: "",
+          questionPrompt: "",
+          images: [],
+          additionalServices: [],
+        }
+  );
 
   const [imagePreviews, setImagePreviews] = useState([]);
 
@@ -92,12 +104,20 @@ const ServiceForm = () => {
     });
 
     try {
-      await axios.post("/api/services", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      if (isEditing) {
+        await axios.put(`/api/services/${serviceId}`, data, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        toast.success("Service updated successfully");
+      } else {
+        await axios.post("/api/services", data, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        toast.success("Service created successfully");
+      }
       navigate("/freelancer/home");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -431,11 +451,14 @@ const ServiceForm = () => {
               <div className="space-y-4 md:space-y-6">
                 <div className="text-center">
                   <h2 className="text-xl font-bold">
-                    Ready to publish your service?
+                    {isEditing
+                      ? "Ready to update your service?"
+                      : "Ready to publish your service?"}
                   </h2>
                   <p className="text-gray-500 mt-2">
-                    Review all information before publishing. Once published,
-                    your service will be visible to potential clients.
+                    {isEditing
+                      ? "Review all information before updating. Your changes will be visible to potential clients."
+                      : "Review all information before publishing. Once published, your service will be visible to potential clients."}
                   </p>
                 </div>
               </div>
@@ -465,7 +488,7 @@ const ServiceForm = () => {
                   type="submit"
                   className="px-3 py-2 md:px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm md:text-base"
                 >
-                  Publish Service
+                  {isEditing ? "Confirm Edit" : "Publish Service"}
                 </button>
               )}
             </div>

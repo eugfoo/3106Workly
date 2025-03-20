@@ -74,37 +74,48 @@ const ServiceDetailsPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <nav className="flex mb-8" aria-label="Breadcrumb">
-        <ol className="inline-flex items-center space-x-1 md:space-x-3">
-          <li className="inline-flex items-center">
-            <Link
-              to={getBasePath()}
-              className="inline-flex items-center text-gray-700 hover:text-blue-600"
-            >
-              <i className="fas fa-home mr-2"></i>
-              Home
-            </Link>
-          </li>
-          <li>
-            <div className="flex items-center">
-              <i className="fas fa-chevron-right text-gray-400 mx-2"></i>
+      <nav className="flex justify-between items-center mb-8">
+        <div className="flex" aria-label="Breadcrumb">
+          <ol className="inline-flex items-center space-x-1 md:space-x-3">
+            <li className="inline-flex items-center">
               <Link
                 to={getBasePath()}
-                className="text-gray-700 hover:text-blue-600"
+                className="inline-flex items-center text-gray-700 hover:text-blue-600"
               >
-                Services
+                <i className="fas fa-home mr-2"></i>
+                Home
               </Link>
-            </div>
-          </li>
-          <li aria-current="page">
-            <div className="flex items-center">
-              <i className="fas fa-chevron-right text-gray-400 mx-2"></i>
-              <span className="text-gray-500 truncate max-w-[200px]">
-                {service.title}
-              </span>
-            </div>
-          </li>
-        </ol>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <i className="fas fa-chevron-right text-gray-400 mx-2"></i>
+                <Link
+                  to={getBasePath()}
+                  className="text-gray-700 hover:text-blue-600"
+                >
+                  Services
+                </Link>
+              </div>
+            </li>
+            <li aria-current="page">
+              <div className="flex items-center">
+                <i className="fas fa-chevron-right text-gray-400 mx-2"></i>
+                <span className="text-gray-500 truncate max-w-[200px]">
+                  {service.title}
+                </span>
+              </div>
+            </li>
+          </ol>
+        </div>
+        {userInfo?.userType === "freelancer" && (
+          <Link
+            to={`/freelancer/${serviceId}/edit`}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+          >
+            <i className="fas fa-edit mr-2"></i>
+            Edit Service
+          </Link>
+        )}
       </nav>
 
       <div className="flex flex-col lg:flex-row gap-8">

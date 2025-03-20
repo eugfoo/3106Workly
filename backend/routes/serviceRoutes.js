@@ -19,8 +19,8 @@ router
 router.get("/my-services", protect, freelancer, getAllMyServices);
 router
   .route("/:id")
-  .get(getServiceDetails)
-  .put(protect, freelancer, uploadImages("images", 5), updateService)
+  .get(protect, getServiceDetails)
+  .put(protect, freelancer, uploadImages("images"), updateService)
   .delete(protect, freelancer, deleteService);
 
 module.exports = router;
