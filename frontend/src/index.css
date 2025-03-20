@@ -1,1 +1,58 @@
 @import "tailwindcss";
+
+.wmde-markdown {
+  background-color: transparent !important;
+}
+
+/* Remove header anchor links */
+.wmde-markdown h1 .anchor,
+.wmde-markdown h2 .anchor,
+.wmde-markdown h3 .anchor {
+  display: none !important;
+}
+
+.wmde-markdown ul,
+.wmde-markdown ol {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+  margin: 0.25rem 0 !important;
+}
+
+.wmde-markdown ol {
+  list-style-type: decimal !important;
+}
+
+.wmde-markdown li {
+  margin: 0 !important;
+  line-height: 1.4 !important;
+  padding: 0 !important;
+}
+
+.wmde-markdown li p {
+  margin: 0 !important;
+  display: inline !important;
+  line-height: inherit !important;
+}
+
+.wmde-markdown h1 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  margin: 0.75rem 0 0.25rem 0 !important;
+}
+
+.wmde-markdown h2 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin: 0.75rem 0 0.25rem 0 !important;
+}
+
+.wmde-markdown h3 {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin: 0.75rem 0 0.25rem 0 !important;
+}
+
+.wmde-markdown p {
+  margin: 0.25rem 0 !important;
+  line-height: 1.4 !important;
+}

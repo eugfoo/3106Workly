@@ -45,6 +45,17 @@ const ServiceDetailsPage = () => {
     fetchServiceDetails();
   }, [serviceId]);
 
+  const markdownStyles = {
+    whiteSpace: "pre-wrap",
+    fontSize: "1rem",
+    lineHeight: "1.5",
+  };
+
+  const markdownContainerStyles = {
+    padding: "0",
+    background: "transparent",
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -135,16 +146,18 @@ const ServiceDetailsPage = () => {
                   {service.duration} days
                 </span>
               </div>
-
+              <hr className="my-6 border-t border-gray-200" />
               {/* Description/Quick Overview */}
               <div className="mt-4">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  Quick Overview
-                </h2>
-                <div data-color-mode="light">
+                <div
+                  data-color-mode="light"
+                  className="text-gray-600"
+                  style={markdownContainerStyles}
+                >
                   <MDEditor.Markdown
                     source={service.description || "No description provided"}
-                    style={{ whiteSpace: "pre-wrap" }}
+                    style={markdownStyles}
+                    className="wmde-markdown wmde-markdown-color"
                   />
                 </div>
               </div>
@@ -160,10 +173,15 @@ const ServiceDetailsPage = () => {
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
                 Questions for Client
               </h2>
-              <div data-color-mode="light">
+              <div
+                data-color-mode="light"
+                className="text-gray-600"
+                style={markdownContainerStyles}
+              >
                 <MDEditor.Markdown
                   source={service.questionPrompt || "No questions specified"}
-                  style={{ whiteSpace: "pre-wrap" }}
+                  style={markdownStyles}
+                  className="wmde-markdown wmde-markdown-color"
                 />
               </div>
             </div>
